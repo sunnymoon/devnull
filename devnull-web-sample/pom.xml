@@ -4,7 +4,7 @@
     <groupId>org.devnull</groupId>
     <artifactId>devnull-web-sample</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <name>DevNull: Web Sample</name>
     <parent>
         <groupId>org.devnull</groupId>
         <artifactId>devnull-parent</artifactId>

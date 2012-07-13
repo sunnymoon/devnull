@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
-  <name>DevNull: Web Archeypte</name>
+  <name>DevNull: Web Archetype</name>
   <description>DevNull starter webaapp with Spring MVC, JPA, Groovy and Twitter Bootstrap</description>
   <build>
     <extensions>
