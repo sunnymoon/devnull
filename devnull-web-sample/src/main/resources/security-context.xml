@@ -21,10 +21,34 @@
 
     <authentication-manager alias="authenticationManager"/>
 
-    <user-service id="userService">
-        <user name="https://www.google.com/accounts/o8/id?id=AItOawnlnuHfoKGwMJSjRHxBROwqil0OE84Zscc"
-              authorities="ROLE_USER"/>
-        <user name="https://me.yahoo.com/a/mMz2C510uMjhwvHr.4K2aToLWzrPDJb.._M-#b431e" authorities="ROLE_USER"/>
-    </user-service>
+    <!--<user-service id="userService">-->
+    <!--<user name="https://www.google.com/accounts/o8/id?id=AItOawnlnuHfoKGwMJSjRHxBROwqil0OE84Zscc"-->
+    <!--authorities="ROLE_USER"/>-->
+    <!--<user name="https://me.yahoo.com/a/mMz2C510uMjhwvHr.4K2aToLWzrPDJb.._M-#b431e" authorities="ROLE_USER"/>-->
+    <!--</user-service>-->
+    <b:bean id="inMemoryUserDetailsManager"
+            class="org.springframework.security.provisioning.InMemoryUserDetailsManager">
+        <b:constructor-arg>
+            <b:list>
+                <b:bean class="org.springframework.security.core.userdetails.User">
+                    <b:constructor-arg value="https://www.google.com/accounts/o8/id?id=AItOawnlnuHfoKGwMJSjRHxBROwqil0OE84Zscc"/>
+                    <b:constructor-arg value="********"/>
+                    <b:constructor-arg>
+                        <b:set>
+                            <b:bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+                                <b:constructor-arg value="ROLE_USER"/>
+                            </b:bean>
+                        </b:set>
+                    </b:constructor-arg>
+                </b:bean>
+            </b:list>
+        </b:constructor-arg>
+    </b:bean>
+
+    <b:bean id="daoAuthenticationProvider"
+            class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <b:property name="userDetailsService" ref="inMemoryUserDetailsManager"/>
+        <!--<b:property name="passwordEncoder" ref="passwordEncoder"/>-->
+    </b:bean>
 
 </b:beans>
