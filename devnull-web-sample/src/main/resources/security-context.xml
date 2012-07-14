@@ -17,12 +17,7 @@
                 <openid-attribute name="name" type="http://schema.openid.net/namePerson/friendly"/>
             </attribute-exchange>
         </openid-login>
-        <remember-me token-repository-ref="tokenRepo"/>
     </http>
-
-
-    <b:bean id="tokenRepo"
-            class="org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl"/>
 
     <authentication-manager alias="authenticationManager"/>
 
