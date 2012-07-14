@@ -9,8 +9,7 @@
 </head>
 <body>
 <div class="row">
-    <h1>1 <sec:authentication property="principal.username" /> </h1>
-    <h1>2 ${principal.name}</h1>
+    <h1><sec:authentication property="principal.username" /> </h1>
     <p>Yada yada yada</p>
 </div>
 </body>

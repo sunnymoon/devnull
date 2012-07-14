@@ -14,10 +14,12 @@ class AccountControllerTest {
     }
 
     @Test
-    void profileShouldReturnCorrectModelAndView() {
-        def principal = mock(Principal)
-        def mv = controller.profile(principal)
-        assert mv.viewName == "profile"
-        assert mv.model.profile == principal
+    void loginShouldReturnCorrectView() {
+        assert controller.login() == "login"
+    }
+
+    @Test
+    void profileShouldReturnCorrectView() {
+        assert "profile" == controller.profile()
     }
 }
