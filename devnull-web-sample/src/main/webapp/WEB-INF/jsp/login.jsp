@@ -1,33 +1,97 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jstl/core_rt' %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%--@elvariable id="SPRING_SECURITY_LAST_EXCEPTION" type="org.springframework.security.core.AuthenticationException"--%>
 
 <html>
-  <head>
-    <title>Open ID Login</title>
-  </head>
+<head>
+    <title>Login</title>
+</head>
 
-  <body onload="document.f.j_username.focus();">
-    <h3>Please Enter Your OpenID Identity</h3>
-
-    <%-- this form-login-page form is also used as the
-         form-error-page to ask for a login again.
-         --%>
-    <c:if test="${not empty param.login_error}">
-      <font color="red">
-        Your login attempt was not successful, try again.<br/><br/>
-        Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
-      </font>
-    </c:if>
+<body>
 
 
-    <form name="f" action="<c:url value='j_spring_openid_security_check'/>" method="POST">
-      <table>
-        <tr><td>OpenID Identity:</td><td><input type='text' name='openid_identifier' value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'/></td></tr>
-        <tr><td><input type="checkbox" name="_spring_security_remember_me"></td><td>Remember me on this computer.</td></tr>
-        <tr><td colspan='2'><input name="submit" type="submit"></td></tr>
-        <tr><td colspan='2'><input name="reset" type="reset"></td></tr>
-      </table>
+<c:if test="${not empty param.login_error}">
+    <div class="row">
+        <div class="alert alert-error">
+            Your login attempt was not successful, try again.
+            <ul>
+                <li>
+                    <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/></li>
+            </ul>
+        </div>
+    </div>
+</c:if>
 
-    </form>
+<div class="row">
+    <div class="span6">
+        <div class="page-header">
+            <h1>Select a Login Provider</h1>
+        </div>
+        <ul class="thumbnails">
+            <li class="span2">
+                <div class="thumbnail">
+                    <c:url var="openIdUrl" value="j_spring_openid_security_check">
+                        <c:param name="openid_identifier" value="https://www.google.com/accounts/o8/id"/>
+                    </c:url>
+                    <a href="${openIdUrl}">
+                        <img src="${pageContext.request.contextPath}/assets/images/logins/google.png" alt="Google">
+                    </a>
+                </div>
+            </li>
+            <li class="span2">
+                <div class="thumbnail">
+                    <c:url var="openIdUrl" value="j_spring_openid_security_check">
+                        <c:param name="openid_identifier" value="https://me.yahoo.com/"/>
+                    </c:url>
+                    <a href="${openIdUrl}">
+                        <img src="${pageContext.request.contextPath}/assets/images/logins/yahoo.png" alt="Yahoo">
+                    </a>
+                </div>
+            </li>
+            <li class="span2">
+                <div class="thumbnail">
+                    <a href="#">
+                        <img src="${pageContext.request.contextPath}/assets/images/logins/facebook.png" alt="Facebook">
+                    </a>
+                </div>
+            </li>
+            <li class="span2">
+                <div class="thumbnail">
+                    <a href="#">
+                        <img src="${pageContext.request.contextPath}/assets/images/logins/twitter.png" alt="Twitter">
+                    </a>
+                </div>
+            </li>
+            <li class="span2">
+                <div class="thumbnail">
+                    <a href="#"><img src="${pageContext.request.contextPath}/assets/images/logins/live.png" alt="Live"></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="span-6">
+        <div class="page-header">
+            <h1>OpenID
+                <small>(any other provider)</small>
+            </h1>
+        </div>
 
-  </body>
+        <form class="form-horizontal" action="<c:url value='j_spring_openid_security_check'/>" method="POST">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="customOpenIdUrl">URL</label>
+
+                    <div class="controls">
+                        <div class="input-append">
+                            <input id="customOpenIdUrl" name="openid_identifier" class="span3" type="text">
+                            <button class="btn" type="button">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+</body>
 </html>

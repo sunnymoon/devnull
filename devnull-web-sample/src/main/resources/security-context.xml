@@ -8,6 +8,8 @@
 
     <http use-expressions="true">
         <intercept-url pattern="/profile**" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/**" access="isAnonymous() or isAuthenticated()"/>
+
         <logout/>
         <openid-login login-page="/login" authentication-failure-url="/login?login_error=true">
             <attribute-exchange>
@@ -25,7 +27,9 @@
     <authentication-manager alias="authenticationManager"/>
 
     <user-service id="userService">
-        <user name="https://www.google.com/accounts/o8/id?id=AItOawnlnuHfoKGwMJSjRHxBROwqil0OE84Zscc" authorities="ROLE_USER"/>
+        <user name="https://www.google.com/accounts/o8/id?id=AItOawnlnuHfoKGwMJSjRHxBROwqil0OE84Zscc"
+              authorities="ROLE_USER"/>
+        <user name="https://me.yahoo.com/a/mMz2C510uMjhwvHr.4K2aToLWzrPDJb.._M-#b431e" authorities="ROLE_USER"/>
     </user-service>
 
 </b:beans>
