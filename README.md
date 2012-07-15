@@ -1,6 +1,7 @@
 # DevNull.org Shared Code Repository
 
-This *will be* a set of groovy APIs for re-use on my other personal projects. 
+This *will be* a set of groovy APIs for re-use on my other personal projects. This is still under heavy development so
+*use at your own peril*.
 
 * devnull-parent: plugin and dependency managers, version info, bare-bones build and testing dependencies.
 * devnull-orm: mainly there to provide spring-data-jpa config but I want to eventually groovy up the specification methods to take closures, etc.
