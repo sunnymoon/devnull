@@ -4,20 +4,26 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import javax.persistence.Entity
 import javax.persistence.Id
-import org.springframework.security.core.userdetails.UserDetails
+import javax.persistence.Table
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
+import javax.persistence.GenerationType
+import javax.persistence.GeneratedValue
 
-
+@Entity
+@Table(name="SecurityUser")
 @EqualsAndHashCode
 @ToString(includeFields = true)
-@Entity
-class OpenIdUser implements Serializable, UserDetails {
+class User implements Serializable, UserDetails {
 
     static final long serialVersionUID = 1L;
 
     @Id
-    String id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id
+
+    String openId
     String email
     String firstName
     String lastName
@@ -28,11 +34,13 @@ class OpenIdUser implements Serializable, UserDetails {
         // TODO hardcoded: replace this with ManyToMany Role relationship
         return [new SimpleGrantedAuthority("ROLE_USER")] as Set
     }
+
     String getPassword() {
         return "********"
     }
+
     String getUsername() {
-        return id
+        return openId
     }
 
     boolean isAccountNonExpired() {

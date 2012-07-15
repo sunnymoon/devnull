@@ -22,7 +22,7 @@
 
     <authentication-manager alias="authenticationManager"/>
 
-    <b:bean id="openIdUserService" class="org.devnull.security.OpenIdUserDetailsService">
+    <b:bean id="openIdUserService" class="org.devnull.security.service.OpenIdUserDetailsService">
         <b:property name="mockUsers">
             <b:list>
                 <b:value>https://www.google.com/accounts/o8/id?id=AItOawnlnuHfoKGwMJSjRHxBROwqil0OE84Zscc</b:value>

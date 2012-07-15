@@ -1,12 +1,12 @@
 package org.devnull.security.service
 
-import org.devnull.security.dao.OpenIdUserDao
-import org.devnull.security.service.OpenIdUserDetailsService
+import org.devnull.security.dao.UserDao
+
 import org.junit.Test
 import static org.mockito.Mockito.*
 import org.junit.Before
-import org.springframework.security.core.userdetails.UserDetailsService
-import org.devnull.security.model.OpenIdUser
+
+import org.devnull.security.model.User
 
 class OpenIdUserDetailsServiceTest {
 
@@ -14,18 +14,18 @@ class OpenIdUserDetailsServiceTest {
 
     @Before
     void createService() {
-        service = new OpenIdUserDetailsService(userDao: mock(OpenIdUserDao))
+        service = new OpenIdUserDetailsService(userDao: mock(UserDao))
     }
 
 
     @Test
     void loadUserByNameShouldConstructUser() {
-        def mockUser = new OpenIdUser(id:'abc')
-        when(service.userDao.findOne('abc')).thenReturn(mockUser)
+        def mockUser = new User(openId:'abc')
+        when(service.userDao.findByOpenId('abc')).thenReturn(mockUser)
 
         def user = service.loadUserByUsername('abc')
 
-        verify(service.userDao, times(1)).findOne('abc')
+        verify(service.userDao, times(1)).findByOpenId('abc')
         assert user.username == "abc"
         assert user.password == "********"
         assert user.accountNonExpired
