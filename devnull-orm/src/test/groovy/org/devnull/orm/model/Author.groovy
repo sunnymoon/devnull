@@ -21,7 +21,7 @@ class Author implements Serializable {
     String lastName
 
     @OneToMany(mappedBy = 'author', cascade = CascadeType.ALL, orphanRemoval = true)
-    List<org.devnull.orm.model.Book> books = []
+    List<Book> books = []
 
     String toString() {
         return "${firstName} ${lastName}"
