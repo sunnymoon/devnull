@@ -1,13 +1,13 @@
 package org.devnull.orm.dao
 
-import org.devnull.orm.BaseIntegrationTest
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
+import org.devnull.test.BaseDataIntegrationTest
 
-class JpaAuthorDaoIntegrationTest extends BaseIntegrationTest {
+class JpaAuthorDaoIntegrationTest extends BaseDataIntegrationTest {
 
     @Autowired
     AuthorDao authorDao

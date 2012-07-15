@@ -12,6 +12,7 @@
         <module>devnull-security</module>
         <module>devnull-web-archetype</module>
         <module>devnull-web-sample</module>
+        <module>devnull-test</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

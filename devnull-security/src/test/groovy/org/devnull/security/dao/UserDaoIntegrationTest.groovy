@@ -2,10 +2,10 @@ package org.devnull.security.dao
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.junit.Test
-import org.devnull.security.test.BaseIntegrationTest
 import org.devnull.security.model.User
+import org.devnull.test.BaseDataIntegrationTest
 
-class UserDaoIntegrationTest extends BaseIntegrationTest {
+class UserDaoIntegrationTest extends BaseDataIntegrationTest {
     @Autowired
     UserDao dao
 

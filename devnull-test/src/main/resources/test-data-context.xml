@@ -12,14 +12,15 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
 ">
-    <jpa:repositories base-package="org.devnull.orm.dao"/>
+    <jpa:repositories base-package="org.devnull"/>
+    <context:component-scan base-package="org.devnull"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreResourceNotFound" value="true"/>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
             <list>
-                <value>classpath:test-config.properties</value>
+                <value>classpath:test-data-config.properties</value>
             </list>
         </property>
     </bean>
@@ -66,7 +67,13 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
                 <prop key="hibernate.cache.use_second_level_cache">false</prop>
             </props>
         </property>
-
+        <property name="persistenceUnitPostProcessors">
+            <list>
+                <bean class="org.springframework.data.jpa.support.ClasspathScanningPersistenceUnitPostProcessor">
+                    <constructor-arg value="org.devnull"/>
+                </bean>
+            </list>
+        </property>
         <property name="loadTimeWeaver">
             <bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/>
         </property>

@@ -4,9 +4,9 @@ import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 
 import org.devnull.security.model.User
-import org.devnull.security.test.BaseIntegrationTest
+import org.devnull.test.BaseDataIntegrationTest
 
-class OpenIdUserDetailsIntegrationTest extends BaseIntegrationTest{
+class OpenIdUserDetailsIntegrationTest extends BaseDataIntegrationTest {
     @Autowired
     OpenIdUserDetailsService service
 

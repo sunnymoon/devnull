@@ -1,11 +1,11 @@
 package org.devnull.security.dao
 
-import org.devnull.security.test.BaseIntegrationTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.junit.Test
 import org.springframework.data.domain.Sort
+import org.devnull.test.BaseDataIntegrationTest
 
-class RoleDaoIntegrationTest extends BaseIntegrationTest {
+class RoleDaoIntegrationTest extends BaseDataIntegrationTest {
     @Autowired
     RoleDao roleDao
 
