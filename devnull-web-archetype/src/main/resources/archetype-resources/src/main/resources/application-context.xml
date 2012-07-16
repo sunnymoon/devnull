@@ -67,6 +67,9 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
         <property name="persistenceUnitPostProcessors">
             <list>
                 <bean class="org.springframework.data.jpa.support.ClasspathScanningPersistenceUnitPostProcessor">
+                    <constructor-arg value="org.devnull"/>
+                </bean>
+                <bean class="org.springframework.data.jpa.support.ClasspathScanningPersistenceUnitPostProcessor">
                     <constructor-arg value="${groupId}"/>
                 </bean>
             </list>
