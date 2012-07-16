@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.devnull</groupId>
-  <artifactId>devnull-web-archetype</artifactId>
+  <artifactId>devnull-web-sample-archetype</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
-  <name>DevNull: Web Archetype</name>
-  <description>DevNull starter webaapp with Spring MVC, JPA, Groovy and Twitter Bootstrap</description>
+  <name>devnull-web-sample-archetype</name>
+
   <build>
     <extensions>
       <extension>
