@@ -3,8 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
     <packaging>war</packaging>
     <name>DevNull: Web Sample</name>
+
     <parent>
         <groupId>org.devnull</groupId>
         <artifactId>devnull-parent</artifactId>
@@ -14,9 +16,9 @@
     <dependencies>
         <!-- Internal -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>${parent.groupId}</groupId>
             <artifactId>devnull-security</artifactId>
-            <version>${project.version}</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <!-- Web -->
@@ -69,13 +71,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>${parent.groupId}</groupId>
             <artifactId>devnull-test</artifactId>
-            <version>${project.version}</version>
+            <version>${parent.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <version>${version}</version>
+    
 
 </project>

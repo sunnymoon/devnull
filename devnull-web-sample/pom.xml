@@ -15,9 +15,9 @@
     <dependencies>
         <!-- Internal -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>${parent.groupId}</groupId>
             <artifactId>devnull-security</artifactId>
-            <version>${project.version}</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <!-- Web -->
@@ -70,9 +70,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>${parent.groupId}</groupId>
             <artifactId>devnull-test</artifactId>
-            <version>${project.version}</version>
+            <version>${parent.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
