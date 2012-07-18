@@ -17,8 +17,10 @@
         <intercept-url pattern="/**" access="isAnonymous() or isAuthenticated()"/>
 
         <logout/>
-        <openid-login login-page="/login" authentication-failure-url="/login?login_error=true"
-                      user-service-ref="openIdUserService">
+        <openid-login login-page="/login"
+                      authentication-failure-url="/login?login_error=true"
+                      user-service-ref="openIdUserDetailsService"
+                      authentication-failure-handler-ref="openIdRegistrationHandler">
             <attribute-exchange>
                 <openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true" count="2"/>
                 <openid-attribute name="name" type="http://schema.openid.net/namePerson/friendly"/>
@@ -28,6 +30,5 @@
 
     <authentication-manager alias="authenticationManager"/>
 
-    <b:bean id="openIdUserService" class="org.devnull.security.service.OpenIdUserDetailsService"/>
 
 </b:beans>

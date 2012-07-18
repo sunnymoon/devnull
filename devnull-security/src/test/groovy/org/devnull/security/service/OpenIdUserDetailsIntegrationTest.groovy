@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 
 import org.devnull.security.model.User
 import org.devnull.test.BaseDataIntegrationTest
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 class OpenIdUserDetailsIntegrationTest extends BaseDataIntegrationTest {
     @Autowired
@@ -19,5 +20,10 @@ class OpenIdUserDetailsIntegrationTest extends BaseDataIntegrationTest {
         assert dan.accountNonExpired
         assert dan.accountNonLocked
         assert dan.enabled
+    }
+
+    @Test(expected=UsernameNotFoundException)
+    void rickMoranisCanNotLogin() {
+        def dan = service.loadUserByUsername('http://fake.openid.com/rmoranis')
     }
 }

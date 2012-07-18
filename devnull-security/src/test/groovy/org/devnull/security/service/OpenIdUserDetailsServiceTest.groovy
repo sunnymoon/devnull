@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*
 import org.junit.Before
 
 import org.devnull.security.model.User
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 class OpenIdUserDetailsServiceTest {
 
@@ -34,5 +35,11 @@ class OpenIdUserDetailsServiceTest {
         def authorities = user.authorities.collect { it.role }
         assert authorities.size() == 1
         assert authorities.first() == "ROLE_USER"
+    }
+    
+    @Test(expected=UsernameNotFoundException)
+    void loadUserByNameShouldErrorIfUserNotFound() {
+        when(service.userDao.findByOpenId('abc')).thenReturn(null)
+        service.loadUserByUsername('abc')
     }
 }
