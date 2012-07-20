@@ -1,11 +1,11 @@
 package org.devnull.security.dao
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.junit.Test
+import org.devnull.security.BaseSecurityIntegrationTest
 import org.devnull.security.model.User
-import org.devnull.test.BaseDataIntegrationTest
+import org.junit.Test
+import org.springframework.beans.factory.annotation.Autowired
 
-class UserDaoIntegrationTest extends BaseDataIntegrationTest {
+class UserDaoIntegrationTest extends BaseSecurityIntegrationTest {
     @Autowired
     UserDao dao
 

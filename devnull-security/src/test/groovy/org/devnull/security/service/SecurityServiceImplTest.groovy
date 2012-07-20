@@ -1,36 +1,47 @@
 package org.devnull.security.service
 
+import org.devnull.security.config.UserLookupStrategy
 import org.devnull.security.dao.UserDao
-import org.junit.Before
-import static org.mockito.Mockito.*
 import org.devnull.security.model.User
+import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentCaptor
+import static org.mockito.Mockito.*
 
 public class SecurityServiceImplTest {
     SecurityServiceImpl service
+    User currentUser
 
     @Before
     void createService() {
-        service = new SecurityServiceImpl(userDao: mock(UserDao))
+        service = new SecurityServiceImpl(userDao: mock(UserDao), userLookupStrategy: mock(UserLookupStrategy))
+        currentUser = new User(id: 20314, openId: "http://test.openid.com", firstName: "John", lastName: "Doe", email: "jdoe@test.com")
+        when(service.userLookupStrategy.lookupCurrentUser()).thenReturn(currentUser)
     }
 
     @Test
-    void registerNewOpenIdUserShouldSaveUserWithCorrectOpenId() {
-        def user = new User(openId: "http://hacked.openid.com", firstName: "Black", lastName: "Hatter")
-        service.registerNewOpenIdUser("http://good.openid.com", user)
-        def argument = ArgumentCaptor.forClass(User);
-        verify(service.userDao).save(argument.capture());
-        assert argument.value.openId == "http://good.openid.com"
+    void registerShouldLookupUserAndSetRegisteredFlagToTrue() {
+        def user = new User(id: 1, registered: false)
+        when(service.userDao.findOne(1L)).thenReturn(user)
+        service.register(1)
+        verify(service.userDao).findOne(1L)
+        verify(service.userDao).save(user)
+        assert user.registered
     }
 
     @Test
-    void registerNewOpenIdUserShouldReturnResultsFromDao() {
-        def openId = "http://good.openid.com"
-        def user = new User(firstName: "John", lastName: "Doe")
-        def mockReturnUser = mock(User)
-        when(service.registerNewOpenIdUser(openId, user)).thenReturn(mockReturnUser)
-        assert mockReturnUser == service.registerNewOpenIdUser(openId, user)
-        verify(service.userDao, times(1)).save(user)
+    void saveShouldNotUpdateSecuredProperties() {
+        def formUser = new User(id: 1, openId: "http://hacked.openid.com", firstName: "Black", lastName: "Hatter", email: "hax@you.com")
+        def result = service.mergeUser(formUser)
+        verify(service.userLookupStrategy).lookupCurrentUser()
+
+        // users can't change identifiers
+        assert result.id == 20314
+        assert result.openId == "http://test.openid.com"
+
+        // free to change their own fields
+        assert result.firstName == "Black"
+        assert result.lastName == "Hatter"
+        assert result.email == "hax@you.com"
     }
+
 }

@@ -2,12 +2,15 @@ package org.devnull.security.service
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import org.devnull.security.model.User
+import org.devnull.security.converter.AuthenticationConverter
+import org.devnull.security.converter.OpenIdAuthenticationTokenConverter
+import org.devnull.security.dao.UserDao
 import org.slf4j.LoggerFactory
-import org.springframework.security.authentication.InsufficientAuthenticationException
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
-import org.springframework.security.openid.OpenIDAuthenticationStatus
-import org.springframework.security.openid.OpenIDAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.DefaultRedirectStrategy
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
 import org.springframework.stereotype.Service
@@ -16,32 +19,36 @@ import org.springframework.stereotype.Service
 class OpenIdRegistrationHandler extends SimpleUrlAuthenticationFailureHandler {
 
     final def log = LoggerFactory.getLogger(this.class)
-    static final String SESSION_OPENID_TEMP_USER = "OPENID_TEMP_USER"
+
     String registrationUrl = "/register"
 
+    @Autowired
+    AuthenticationManager authenticationManager
+
+    @Autowired
+    UserDao userDao
+
+    AuthenticationConverter authenticationConverter = new OpenIdAuthenticationTokenConverter()
+
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
-        if (e.authentication instanceof OpenIDAuthenticationToken) {
-            def user = createTempUser(e.authentication as OpenIDAuthenticationToken)
-            redirectToRegistration(request, response, user)
-            return
+        log.info("Attempting to create unregistered user for auth: {}", e.authentication)
+        try {
+            def user = authenticationConverter.convert(e.authentication)
+            user.registered = false
+            userDao.save(user)
+            reAuthenticate(e.authentication)
+            new DefaultRedirectStrategy().sendRedirect(request, response, registrationUrl)
+        } catch (AuthenticationException ae) {
+            super.onAuthenticationFailure(request, response, ae)
         }
-        super.onAuthenticationFailure(request, response, e)
     }
 
-    protected void redirectToRegistration(HttpServletRequest request, HttpServletResponse response, User user) {
-        def strategy = new DefaultRedirectStrategy()
-        request.getSession(true).setAttribute(SESSION_OPENID_TEMP_USER, user)
-        strategy.sendRedirect(request, response, registrationUrl)
+    protected void reAuthenticate(Authentication authentication) {
+        log.info("Re-Authenticating..")
+        def response = authenticationManager.authenticate(authentication)
+        SecurityContextHolder.getContext().setAuthentication(response);
+        log.info("Re-Authentication response: {}", response)
     }
 
-    protected User createTempUser(OpenIDAuthenticationToken token) {
-        if (token.status == OpenIDAuthenticationStatus.SUCCESS) {
-            def email = token.attributes.find { it.name == "email" }
-            return new User(openId: token.identityUrl, email: email?.values?.first())
-        }
-        else {
-            log.warn("Invalid OpenID auth status: {}, message: {}", token.status, token.message)
-            throw new InsufficientAuthenticationException("Unsuccessfull OpenID authenitcation status: ${token.status}, message: ${token.message}")
-        }
-    }
+
 }
