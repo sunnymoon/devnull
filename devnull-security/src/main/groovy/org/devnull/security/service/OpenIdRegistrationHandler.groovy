@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.devnull.security.converter.AuthenticationConverter
 import org.devnull.security.converter.OpenIdAuthenticationTokenConverter
+import org.devnull.security.dao.RoleDao
 import org.devnull.security.dao.UserDao
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,19 +15,25 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.DefaultRedirectStrategy
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service("openIdRegistrationHandler")
+@Transactional
 class OpenIdRegistrationHandler extends SimpleUrlAuthenticationFailureHandler {
 
     final def log = LoggerFactory.getLogger(this.class)
 
     String registrationUrl = "/register"
+    List<String> defaultRoles = ["ROLE_GUEST"]
 
     @Autowired
     AuthenticationManager authenticationManager
 
     @Autowired
     UserDao userDao
+
+    @Autowired
+    RoleDao roleDao
 
     AuthenticationConverter authenticationConverter = new OpenIdAuthenticationTokenConverter()
 
@@ -35,6 +42,9 @@ class OpenIdRegistrationHandler extends SimpleUrlAuthenticationFailureHandler {
         try {
             def user = authenticationConverter.convert(e.authentication)
             user.registered = false
+            defaultRoles.each { role ->
+                user.roles << roleDao.findByName(role)
+            }
             userDao.save(user)
             reAuthenticate(e.authentication)
             new DefaultRedirectStrategy().sendRedirect(request, response, registrationUrl)

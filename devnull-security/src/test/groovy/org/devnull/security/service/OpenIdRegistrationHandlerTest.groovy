@@ -19,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.mockito.Matchers
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
+import org.devnull.security.dao.RoleDao
+import org.mockito.ArgumentCaptor
 
 public class OpenIdRegistrationHandlerTest {
     OpenIdRegistrationHandler handler
@@ -32,7 +34,8 @@ public class OpenIdRegistrationHandlerTest {
         handler = new OpenIdRegistrationHandler(
                 authenticationConverter: mock(AuthenticationConverter),
                 authenticationManager: mock(AuthenticationManager),
-                userDao: mock(UserDao)
+                userDao: mock(UserDao),
+                roleDao: mock(RoleDao)
         )
     }
 
@@ -60,6 +63,19 @@ public class OpenIdRegistrationHandlerTest {
         assert !mockUser.registered
         assert mockResponse.status < 400
         assert mockResponse.redirectedUrl == handler.registrationUrl
+    }
+    
+    void onAuthenticationFailureShouldAddDefaultRolesToUser() {
+        def mockUser = new User()
+        def exception = mock(AuthenticationException)
+
+        when(handler.authenticationConverter.convert(Matchers.any(Authentication))).thenReturn(mockUser)
+        when(handler.userDao.save(mockUser)).thenReturn(mockUser)
+        handler.onAuthenticationFailure(mockRequest, mockResponse, exception)
+        handler.defaultRoles.each { roleName ->
+            verify(handler.roleDao).findByName(roleName)
+            assert mockUser.roles.find { it.name == roleName }
+        }
     }
 
 

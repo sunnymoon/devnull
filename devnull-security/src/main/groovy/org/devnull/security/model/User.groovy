@@ -18,8 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
 @Table(name = "SecurityUser")
-@EqualsAndHashCode
-@ToString(includeFields = true)
+@EqualsAndHashCode(excludes="roles")
+@ToString(excludes="roles", includeFields = true)
 class User implements Serializable, UserDetails {
 
     static final def log = LoggerFactory.getLogger(User)
