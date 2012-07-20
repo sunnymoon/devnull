@@ -10,7 +10,7 @@ class SpringSecurityUserLookupStrategy implements UserLookupStrategy {
     final def log = LoggerFactory.getLogger(this.class)
 
     User lookupCurrentUser() {
-        def principal = SecurityContextHolder.context.authentication.principal
+        def principal = SecurityContextHolder.context?.authentication?.principal
         log.trace("Current user principal: {}", principal)
         return principal as User
     }
