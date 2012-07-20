@@ -2,18 +2,19 @@ package org.devnull.security.model
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
 import javax.persistence.Table
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.openid.OpenIDAuthenticationStatus
-import org.springframework.security.openid.OpenIDAuthenticationToken
 
 @Entity
 @Table(name = "SecurityUser")
@@ -27,6 +28,14 @@ class User implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id
+
+    @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
+    @JoinTable(
+    name = "SecurityUserRole",
+    joinColumns = @JoinColumn(name = "UserId"),
+    inverseJoinColumns = @JoinColumn(name = "RoleId")
+    )
+    List<Role> roles = []
 
     String openId
     String email
