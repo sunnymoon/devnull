@@ -9,6 +9,10 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 
 class OpenIdAuthenticationTokenConverter implements AuthenticationConverter {
 
+    static final String ATTR_EMAIL = "email"
+    static final String ATTR_FIRST_NAME = "firstName"
+    static final String ATTR_LAST_NAME = "lastName"
+
     User convert(Authentication authentication) {
         if (authentication instanceof OpenIDAuthenticationToken) {
             def token = authentication as OpenIDAuthenticationToken
@@ -16,7 +20,9 @@ class OpenIdAuthenticationTokenConverter implements AuthenticationConverter {
                 throw new BadCredentialsException("Invalid token status: ${token.status}, messsage: ${token.message}")
             }
             def user = new User(openId: token.identityUrl)
-            user.email = token.attributes.find { it.name == "email" }?.values?.first()
+            user.email = token.attributes.find { it.name == ATTR_EMAIL }?.values?.first()
+            user.firstName = token.attributes.find { it.name == ATTR_FIRST_NAME }?.values?.first()
+            user.lastName = token.attributes.find { it.name == ATTR_LAST_NAME }?.values?.first()
             // TODO support more attributes
             return user
         }
