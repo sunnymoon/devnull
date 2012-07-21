@@ -6,6 +6,9 @@ import org.devnull.security.model.User
 import org.junit.Before
 import org.junit.Test
 import static org.mockito.Mockito.*
+import javax.security.sasl.AuthenticationException
+import org.devnull.security.model.Role
+import org.devnull.security.dao.RoleDao
 
 public class SecurityServiceImplTest {
     SecurityServiceImpl service
@@ -13,7 +16,11 @@ public class SecurityServiceImplTest {
 
     @Before
     void createService() {
-        service = new SecurityServiceImpl(userDao: mock(UserDao), userLookupStrategy: mock(UserLookupStrategy))
+        service = new SecurityServiceImpl(
+                userDao: mock(UserDao),
+                roleDao: mock(RoleDao),
+                userLookupStrategy: mock(UserLookupStrategy)
+        )
         currentUser = new User(id: 20314, openId: "http://test.openid.com", firstName: "John", lastName: "Doe", email: "jdoe@test.com")
         when(service.userLookupStrategy.lookupCurrentUser()).thenReturn(currentUser)
     }
@@ -26,6 +33,22 @@ public class SecurityServiceImplTest {
         verify(service.userDao).findOne(1L)
         verify(service.userDao).save(user)
         assert user.registered
+    }
+
+    @Test
+       void createNewUserShouldAddRolesToUserAndSave() {
+        def mockUser = new User()
+        def roles = ["a", "b"]
+
+        when(service.userDao.save(mockUser)).thenReturn(mockUser)
+        when(service.roleDao.findByName("a")).thenReturn(new Role(id:1, name:"a"))
+        when(service.roleDao.findByName("b")).thenReturn(new Role(id:1, name:"b"))
+        def result = service.createNewUser(mockUser, roles)
+        assert result
+        roles.each { roleName ->
+            verify(service.roleDao).findByName(roleName)
+            assert result.roles.find { it.name == roleName }
+        }
     }
 
     @Test

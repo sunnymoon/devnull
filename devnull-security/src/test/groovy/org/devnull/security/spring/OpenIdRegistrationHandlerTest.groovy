@@ -1,4 +1,4 @@
-package org.devnull.security.service
+package org.devnull.security.spring
 
 import org.devnull.security.converter.AuthenticationConverter
 import org.devnull.security.model.User
@@ -6,8 +6,7 @@ import org.junit.Before
 import org.junit.Test
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.userdetails.UsernameNotFoundException
+
 import org.springframework.security.openid.OpenIDAttribute
 import org.springframework.security.openid.OpenIDAuthenticationStatus
 import org.springframework.security.openid.OpenIDAuthenticationToken
@@ -15,12 +14,14 @@ import static org.mockito.Mockito.*
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.InsufficientAuthenticationException
 import org.devnull.security.dao.UserDao
-import org.springframework.security.core.context.SecurityContextHolder
+
 import org.mockito.Matchers
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.devnull.security.dao.RoleDao
-import org.mockito.ArgumentCaptor
+
+import org.devnull.security.spring.OpenIdRegistrationHandler
+import org.devnull.security.service.SecurityService
 
 public class OpenIdRegistrationHandlerTest {
     OpenIdRegistrationHandler handler
@@ -34,8 +35,7 @@ public class OpenIdRegistrationHandlerTest {
         handler = new OpenIdRegistrationHandler(
                 authenticationConverter: mock(AuthenticationConverter),
                 authenticationManager: mock(AuthenticationManager),
-                userDao: mock(UserDao),
-                roleDao: mock(RoleDao)
+                securityService: mock(SecurityService)
         )
     }
 
@@ -55,9 +55,9 @@ public class OpenIdRegistrationHandlerTest {
         def exception = mock(AuthenticationException)
 
         when(handler.authenticationConverter.convert(Matchers.any(Authentication))).thenReturn(mockUser)
-        when(handler.userDao.save(mockUser)).thenReturn(mockUser)
+        when(handler.securityService.createNewUser(mockUser, handler.defaultRoles)).thenReturn(mockUser)
         handler.onAuthenticationFailure(mockRequest, mockResponse, exception)
-        verify(handler.userDao).save(mockUser)
+        verify(handler.securityService).createNewUser(mockUser,  handler.defaultRoles)
         verify(handler.authenticationManager).authenticate(exception.authentication)
 
         assert !mockUser.registered
@@ -65,18 +65,7 @@ public class OpenIdRegistrationHandlerTest {
         assert mockResponse.redirectedUrl == handler.registrationUrl
     }
     
-    void onAuthenticationFailureShouldAddDefaultRolesToUser() {
-        def mockUser = new User()
-        def exception = mock(AuthenticationException)
 
-        when(handler.authenticationConverter.convert(Matchers.any(Authentication))).thenReturn(mockUser)
-        when(handler.userDao.save(mockUser)).thenReturn(mockUser)
-        handler.onAuthenticationFailure(mockRequest, mockResponse, exception)
-        handler.defaultRoles.each { roleName ->
-            verify(handler.roleDao).findByName(roleName)
-            assert mockUser.roles.find { it.name == roleName }
-        }
-    }
 
 
     protected OpenIDAuthenticationToken createToken(OpenIDAuthenticationStatus status, List<OpenIDAttribute> attributes = []) {

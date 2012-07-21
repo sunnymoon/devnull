@@ -1,4 +1,4 @@
-package org.devnull.security.service
+package org.devnull.security.spring
 
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.devnull.security.dao.UserDao
 import org.slf4j.LoggerFactory
+import org.devnull.security.service.SecurityService
 
 @Service("openIdUserDetailsService")
 class OpenIdUserDetailsService implements UserDetailsService {
@@ -16,13 +17,15 @@ class OpenIdUserDetailsService implements UserDetailsService {
     final def log = LoggerFactory.getLogger(this.class)
 
     @Autowired
-    UserDao userDao
+    SecurityService securityService
 
     UserDetails loadUserByUsername(String openIdToken) {
         log.debug("Attempting to load user by token {}", openIdToken)
-        def user = userDao.findByOpenId(openIdToken)
+        def user = securityService.findUserByOpenId(openIdToken)
         log.debug("User={}", user)
-        if (user) return user
-        throw new UsernameNotFoundException("Unable to locate user with open id token :${openIdToken}")
+        if (!user) {
+            throw new UsernameNotFoundException("Unable to locate user with open id token :${openIdToken}")
+        }
+        return user
     }
 }
