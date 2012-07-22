@@ -18,8 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
 @Table(name = "SecurityUser")
-@EqualsAndHashCode(excludes="roles")
-@ToString(excludes="roles", includeFields = true)
+@EqualsAndHashCode(excludes = "roles")
+@ToString(excludes = "roles", includeFields = true)
 class User implements Serializable, UserDetails {
 
     static final def log = LoggerFactory.getLogger(User)
@@ -41,7 +41,6 @@ class User implements Serializable, UserDetails {
     String email
     String firstName
     String lastName
-    Boolean registered = false
     Boolean enabled = true
 
     /**
@@ -97,5 +96,10 @@ class User implements Serializable, UserDetails {
         return enabled
     }
 
+    void addToRoles(Role role) {
+        if (!roles.contains(role)) {
+            roles.add(role)
+        }
+    }
 
 }
