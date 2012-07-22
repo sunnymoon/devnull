@@ -3,7 +3,7 @@ package org.devnull.security.service
 import org.devnull.security.config.UserLookupStrategy
 import org.devnull.security.dao.RoleDao
 import org.devnull.security.dao.UserDao
-import org.devnull.security.model.Role
+
 import org.devnull.security.model.User
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,9 +42,9 @@ class SecurityServiceImpl implements SecurityService {
         userDao.save(user)
     }
 
-    User save(User user) {
+    User updateCurrentUser(User user) {
         log.info("Saving user: {}", user)
-        User secureUser = mergeUser(user)
+        User secureUser = mergeWithCurrentUser(user)
         return userDao.save(secureUser)
     }
 
@@ -65,7 +65,7 @@ class SecurityServiceImpl implements SecurityService {
         userDao.save(user)
     }
 
-    protected User mergeUser(User user) {
+    protected User mergeWithCurrentUser(User user) {
         def secureUser = getCurrentUser()
         secureUser.email = user.email
         secureUser.lastName = user.lastName

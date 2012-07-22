@@ -27,12 +27,12 @@ public interface SecurityService {
     User createNewUser(User user, List<String> roles)
 
     /**
-     * Securely update the user fields. Excludes openId, id, etc.
+     * Securely update the  the currently logged in user. Excludes openId, id, etc.
      *
-     * @param user user to be saved
+     * @param user user object containing the values to be changed
      * @return updated user
      */
-    User save(User user)
+    User updateCurrentUser(User user)
 
     /**
      * Remove the roles from the currently logged in user

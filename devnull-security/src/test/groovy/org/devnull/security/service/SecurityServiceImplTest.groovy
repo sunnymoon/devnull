@@ -6,7 +6,7 @@ import org.devnull.security.model.User
 import org.junit.Before
 import org.junit.Test
 import static org.mockito.Mockito.*
-import javax.security.sasl.AuthenticationException
+
 import org.devnull.security.model.Role
 import org.devnull.security.dao.RoleDao
 
@@ -43,11 +43,15 @@ public class SecurityServiceImplTest {
     }
 
     @Test
-    void saveShouldNotUpdateSecuredProperties() {
+    void updateCurrentUserShouldNotUpdateSecuredProperties() {
         def formUser = new User(id: 1, openId: "http://hacked.openid.com", firstName: "Black", lastName: "Hatter", email: "hax@you.com")
-        def result = service.mergeUser(formUser)
-        verify(service.userLookupStrategy).lookupCurrentUser()
 
+        when(service.userDao.save(currentUser)).thenReturn(currentUser)
+        def result = service.updateCurrentUser(formUser)
+        verify(service.userDao).save(currentUser)
+
+        assert result == currentUser
+        
         // users can't change identifiers
         assert result.id == 20314
         assert result.openId == "http://test.openid.com"
