@@ -68,8 +68,7 @@ class User implements Serializable, UserDetails {
     }
 
     Collection<GrantedAuthority> getAuthorities() {
-        // TODO hardcoded: replace this with ManyToMany Role relationship
-        return [new SimpleGrantedAuthority("ROLE_USER")] as Set
+        return roles.collect { new SimpleGrantedAuthority(it.name) }
     }
 
     String getPassword() {
