@@ -1,14 +1,13 @@
 package org.devnull.security.service
 
 import org.devnull.security.config.UserLookupStrategy
+import org.devnull.security.dao.RoleDao
 import org.devnull.security.dao.UserDao
+import org.devnull.security.model.Role
 import org.devnull.security.model.User
 import org.junit.Before
 import org.junit.Test
 import static org.mockito.Mockito.*
-
-import org.devnull.security.model.Role
-import org.devnull.security.dao.RoleDao
 
 public class SecurityServiceImplTest {
     SecurityServiceImpl service
@@ -22,18 +21,18 @@ public class SecurityServiceImplTest {
                 userLookupStrategy: mock(UserLookupStrategy)
         )
         currentUser = new User(id: 20314, openId: "http://test.openid.com", firstName: "John", lastName: "Doe", email: "jdoe@test.com")
-        currentUser.roles = [new Role(id:1, name:"a"), new Role(id:2, name: "b"), new Role(id:3, name: "c")]
+        currentUser.roles = [new Role(id: 1, name: "a"), new Role(id: 2, name: "b"), new Role(id: 3, name: "c")]
         when(service.userLookupStrategy.lookupCurrentUser()).thenReturn(currentUser)
     }
 
     @Test
-       void createNewUserShouldAddRolesToUserAndSave() {
+    void createNewUserShouldAddRolesToUserAndSave() {
         def mockUser = new User()
         def roles = ["a", "b"]
 
         when(service.userDao.save(mockUser)).thenReturn(mockUser)
-        when(service.roleDao.findByName("a")).thenReturn(new Role(id:1, name:"a"))
-        when(service.roleDao.findByName("b")).thenReturn(new Role(id:1, name:"b"))
+        when(service.roleDao.findByName("a")).thenReturn(new Role(id: 1, name: "a"))
+        when(service.roleDao.findByName("b")).thenReturn(new Role(id: 1, name: "b"))
         def result = service.createNewUser(mockUser, roles)
         assert result
         roles.each { roleName ->
@@ -43,49 +42,30 @@ public class SecurityServiceImplTest {
     }
 
     @Test
-    void updateCurrentUserShouldNotUpdateSecuredProperties() {
-        def formUser = new User(id: 1, openId: "http://hacked.openid.com", firstName: "Black", lastName: "Hatter", email: "hax@you.com")
+    void findRoleByNameShouldReturnResultFromDao() {
+        def expected = new Role(id: 1, name: "a")
+        when(service.findRoleByName("a")).thenReturn(expected)
+        def result = service.findRoleByName("a")
+        assert result.is(expected)
+    }
 
+    @Test
+    void updateCurrentUserShouldSaveCurrentUserAndReAuthenticate() {
         when(service.userDao.save(currentUser)).thenReturn(currentUser)
-        def result = service.updateCurrentUser(formUser)
+        def result = service.updateCurrentUser(true)
         verify(service.userDao).save(currentUser)
-
+        verify(service.userLookupStrategy).reAuthenticateCurrentUser()
         assert result == currentUser
-        
-        // users can't change identifiers
-        assert result.id == 20314
-        assert result.openId == "http://test.openid.com"
-
-        // free to change their own fields
-        assert result.firstName == "Black"
-        assert result.lastName == "Hatter"
-        assert result.email == "hax@you.com"
     }
-
+    
     @Test
-    void removeRolesShouldUpdateCurrentLoggedInUserAndSaveChanges() {
-        assert currentUser.roles.size() == 3
-        service.removeRoles(["a", "c"])
-        assert currentUser.roles.size() == 1
-        assert currentUser.roles.first() == new Role(id:2, name:"b")
+    void updateCurrentUserShouldSaveCurrentUserWithoutReauthencation() {
+        when(service.userDao.save(currentUser)).thenReturn(currentUser)
+        def result = service.updateCurrentUser(false)
         verify(service.userDao).save(currentUser)
+        verify(service.userLookupStrategy, never()).reAuthenticateCurrentUser()
+        assert result == currentUser
     }
 
-    @Test
-    void addRolesShouldUpdateCurrentLoggedInUserAndSaveChanges() {
-        def rolesToAdd = [new Role(id:1, name:"a"), new Role(id:4, name:"d"), new Role(id:5, name:"e")]
-
-        rolesToAdd.each {
-            when(service.roleDao.findByName(it.name)).thenReturn(it)
-        }
-
-        assert currentUser.roles.size() == 3
-        service.addRoles(rolesToAdd.collect {it.name})
-        assert currentUser.roles.size() == 5
-        verify(service.userDao).save(currentUser)
-        rolesToAdd.each {
-            verify(service.roleDao).findByName(it.name)
-        }
-    }
 
 }

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import javax.persistence.FetchType
 
 @Entity
 @Table(name = "SecurityUser")
@@ -29,7 +30,7 @@ class User implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id
 
-    @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
+    @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST], fetch=FetchType.EAGER)
     @JoinTable(
     name = "SecurityUserRole",
     joinColumns = @JoinColumn(name = "UserId"),
