@@ -1,7 +1,7 @@
 package org.devnull.security.service
 
-import org.devnull.security.model.User
 import org.devnull.security.model.Role
+import org.devnull.security.model.User
 
 public interface SecurityService {
     /**
@@ -27,25 +27,14 @@ public interface SecurityService {
     User createNewUser(User user, List<String> roles)
 
     /**
-     * Securely update the  the currently logged in user. Excludes openId, id, etc.
+     * Save any changes to the authenticated user and optionally re-authenticate
      *
-     * @param user user object containing the values to be changed
-     * @return updated user
+     * @param reAuthenticate if true, user's security context will be re-authenticated
      */
-    User updateCurrentUser(User user)
+    User updateCurrentUser(Boolean reAuthenticate)
 
     /**
-     * Remove the roles from the currently logged in user
-     *
-     * @param roles which roles you'd like removed.
+     * Lookup an existing role by name
      */
-    void removeRoles(List<String> roles)
-
-    /**
-     * Add the roles to the currently logged in user
-     *
-     * @param roles which roles you'd like added
-     */
-    void addRoles(List<String> roles)
-
+    Role findRoleByName(String name)
 }

@@ -9,6 +9,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.security.core.Authentication
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.core.context.SecurityContextHolder
+import org.devnull.security.model.Role
 
 @Service("securityService")
 @Transactional
@@ -42,35 +46,18 @@ class SecurityServiceImpl implements SecurityService {
         userDao.save(user)
     }
 
-    User updateCurrentUser(User user) {
+    User updateCurrentUser(Boolean reAuthenticate) {
+        def user = currentUser
         log.info("Saving user: {}", user)
-        User secureUser = mergeWithCurrentUser(user)
-        return userDao.save(secureUser)
-    }
-
-    void removeRoles(List<String> roles) {
-        def user = currentUser
-        log.info("Removing roles: {} from user: {}", roles, user)
-        user.roles.removeAll { roles.contains(it.name)  }
         userDao.save(user)
-    }
-
-
-    void addRoles(List<String> roles) {
-        def user = currentUser
-        log.info("Adding roles: {} to user: {}", roles, user)
-        roles.each { role ->
-            user.addToRoles(roleDao.findByName(role))
+        if (reAuthenticate) {
+            userLookupStrategy.reAuthenticateCurrentUser()
         }
-        userDao.save(user)
+        return currentUser
     }
 
-    protected User mergeWithCurrentUser(User user) {
-        def secureUser = getCurrentUser()
-        secureUser.email = user.email
-        secureUser.lastName = user.lastName
-        secureUser.firstName = user.firstName
-        return secureUser
+    Role findRoleByName(String name) {
+        return roleDao.findByName(name)
     }
 
 
