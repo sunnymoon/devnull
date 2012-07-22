@@ -22,17 +22,8 @@ public class SecurityServiceImplTest {
                 userLookupStrategy: mock(UserLookupStrategy)
         )
         currentUser = new User(id: 20314, openId: "http://test.openid.com", firstName: "John", lastName: "Doe", email: "jdoe@test.com")
+        currentUser.roles = [new Role(id:1, name:"a"), new Role(id:2, name: "b"), new Role(id:3, name: "c")]
         when(service.userLookupStrategy.lookupCurrentUser()).thenReturn(currentUser)
-    }
-
-    @Test
-    void registerShouldLookupUserAndSetRegisteredFlagToTrue() {
-        def user = new User(id: 1, registered: false)
-        when(service.userDao.findOne(1L)).thenReturn(user)
-        service.register(1)
-        verify(service.userDao).findOne(1L)
-        verify(service.userDao).save(user)
-        assert user.registered
     }
 
     @Test
@@ -65,6 +56,32 @@ public class SecurityServiceImplTest {
         assert result.firstName == "Black"
         assert result.lastName == "Hatter"
         assert result.email == "hax@you.com"
+    }
+
+    @Test
+    void removeRolesShouldUpdateCurrentLoggedInUserAndSaveChanges() {
+        assert currentUser.roles.size() == 3
+        service.removeRoles(["a", "c"])
+        assert currentUser.roles.size() == 1
+        assert currentUser.roles.first() == new Role(id:2, name:"b")
+        verify(service.userDao).save(currentUser)
+    }
+
+    @Test
+    void addRolesShouldUpdateCurrentLoggedInUserAndSaveChanges() {
+        def rolesToAdd = [new Role(id:1, name:"a"), new Role(id:4, name:"d"), new Role(id:5, name:"e")]
+
+        rolesToAdd.each {
+            when(service.roleDao.findByName(it.name)).thenReturn(it)
+        }
+
+        assert currentUser.roles.size() == 3
+        service.addRoles(rolesToAdd.collect {it.name})
+        assert currentUser.roles.size() == 5
+        verify(service.userDao).save(currentUser)
+        rolesToAdd.each {
+            verify(service.roleDao).findByName(it.name)
+        }
     }
 
 }

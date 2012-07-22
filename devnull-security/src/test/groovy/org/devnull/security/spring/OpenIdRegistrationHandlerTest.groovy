@@ -60,7 +60,6 @@ public class OpenIdRegistrationHandlerTest {
         verify(handler.securityService).createNewUser(mockUser,  handler.defaultRoles)
         verify(handler.authenticationManager).authenticate(exception.authentication)
 
-        assert !mockUser.registered
         assert mockResponse.status < 400
         assert mockResponse.redirectedUrl == handler.registrationUrl
     }

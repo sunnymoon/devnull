@@ -33,10 +33,9 @@ class OpenIdRegistrationHandler extends SimpleUrlAuthenticationFailureHandler {
     AuthenticationConverter authenticationConverter = new OpenIdAuthenticationTokenConverter()
 
     void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
-        log.info("Attempting to create unregistered user for auth: {}", e.authentication)
+        log.info("Creating new account unregistered user for auth: {}", e.authentication)
         try {
             def user = authenticationConverter.convert(e.authentication)
-            user.registered = false
             securityService.createNewUser(user, defaultRoles)
             reAuthenticate(e.authentication)
             new DefaultRedirectStrategy().sendRedirect(request, response, registrationUrl)
