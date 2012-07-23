@@ -20,7 +20,7 @@ import javax.persistence.FetchType
 @Entity
 @Table(name = "SecurityUser")
 @EqualsAndHashCode(excludes = "roles")
-@ToString(excludes = "roles", includeFields = true)
+@ToString(excludes = "roles", includeNames = true)
 class User implements Serializable, UserDetails {
 
     static final def log = LoggerFactory.getLogger(User)

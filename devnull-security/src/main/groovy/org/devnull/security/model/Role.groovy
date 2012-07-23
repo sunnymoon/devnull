@@ -11,7 +11,7 @@ import groovy.transform.ToString
 @Entity
 @Table(name="SecurityRole")
 @EqualsAndHashCode
-@ToString(includeFields=true)
+@ToString(includeNames=true)
 class Role implements Serializable {
 
 
