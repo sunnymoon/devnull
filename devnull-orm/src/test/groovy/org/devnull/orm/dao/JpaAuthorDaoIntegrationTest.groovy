@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
-import org.devnull.test.BaseDataIntegrationTest
+import org.devnull.orm.BaseIntegrationTest
 
-class JpaAuthorDaoIntegrationTest extends BaseDataIntegrationTest {
+class JpaAuthorDaoIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     AuthorDao authorDao

@@ -11,7 +11,6 @@
         <module>devnull-orm</module>
         <module>devnull-security</module>
         <module>devnull-web-archetype</module>
-        <module>devnull-test</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -199,6 +198,11 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>4.1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>2.4.8</version>
             </dependency>
 
             <!-- Test -->

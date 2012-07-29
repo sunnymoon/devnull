@@ -1,10 +1,10 @@
 package org.devnull.orm.dao
 
-import org.devnull.test.BaseDataIntegrationTest
+import org.devnull.orm.BaseIntegrationTest
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-class JpaBookDaoIntegrationTest extends BaseDataIntegrationTest {
+class JpaBookDaoIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     BookDao dao
