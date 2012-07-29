@@ -79,7 +79,7 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
 
     <bean class="org.devnull.orm.boot.DataBootStrap">
         <property name="tester">
-            <bean class="org.devnull.orm.boot.DataSourceDatabasePopulator">
+            <bean class="org.dbunit.DataSourceDatabaseTester">
                 <constructor-arg ref="dataSource"/>
             </bean>
         </property>
