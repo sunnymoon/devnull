@@ -23,26 +23,20 @@ class DataBootStrap implements InitializingBean {
      */
     IDatabaseTester tester
 
-    /**
-     * Hibernate DDL strategy being used
-     */
-    String ddlStrategy
-
-    /**
-     * If this value matches the injected ddlStrategy, bootstrap will populate data.
-     *
-     * Default: create-drop
-     */
-    String triggerStrategy = "create-drop"
 
     /**
      * Directory containing the CSV files and table-ordering.txt file (see dbunit docs)
      */
     Resource csvImportsPath
 
+    /**
+     * Will not import data unless this is true
+     */
+    Boolean enabled = false
+
 
     void afterPropertiesSet() {
-        if (ddlStrategy == triggerStrategy) {
+        if (enabled) {
             log.info("Triggering data bootstrap for {} ...", csvImportsPath.file)
             IDataSet dataSet = new CsvDataSet(csvImportsPath.file)
             tester.setDataSet(dataSet)
@@ -50,7 +44,7 @@ class DataBootStrap implements InitializingBean {
             log.info("Done bootstrapping data.")
 
         } else {
-            log.debug("Skipping data bootstrap because trigger {} != {}", triggerStrategy, ddlStrategy)
+            log.debug("enabled={}. No data will be imported.", enabled)
         }
     }
 }

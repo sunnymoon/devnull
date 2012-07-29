@@ -9,10 +9,9 @@ import static org.mockito.Mockito.*
 class DataBootStrapTest {
 
     @Test
-    void afterPropertiesSetShouldInvokeTesterIfDdlMatchesTrigger() {
+    void afterPropertiesSetShouldInvokeTesterIfEnabled() {
         def bootStrap = new DataBootStrap(
-                ddlStrategy: "foo",
-                triggerStrategy: "foo",
+                enabled: true,
                 tester: mock(IDatabaseTester),
                 csvImportsPath: new ClassPathResource("/data")
         )
@@ -23,8 +22,7 @@ class DataBootStrapTest {
     @Test
     void afterPropertiesSetShouldNotInvokeTesterIfDdlDoesNotMatchTrigger() {
         def bootStrap = new DataBootStrap(
-                ddlStrategy: "foo",
-                triggerStrategy: "bar",
+                enabled: false,
                 tester: mock(IDatabaseTester),
                 csvImportsPath: new ClassPathResource("/data")
         )

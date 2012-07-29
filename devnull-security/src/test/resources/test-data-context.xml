@@ -84,6 +84,7 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
             </bean>
         </property>
         <property name="csvImportsPath" value="classpath:/data"/>
-        <property name="ddlStrategy" value="${jdbc.application.generate.ddl}"/>
+        <!--suppress SpringModelInspection -->
+        <property name="enabled" value="#{'${jdbc.application.generate.ddl}' == 'create-drop'}"/>
     </bean>
 </beans>
