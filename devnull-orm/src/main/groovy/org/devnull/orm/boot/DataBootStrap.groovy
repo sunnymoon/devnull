@@ -19,7 +19,7 @@ class DataBootStrap implements InitializingBean {
     /**
      * DBUnit database tester.
      *
-     * @see DataSourceDatabasePopulator
+     * @see org.dbunit.DataSourceDatabaseTester
      */
     IDatabaseTester tester
 
