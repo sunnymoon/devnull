@@ -8,6 +8,11 @@
     <packaging>pom</packaging>
     <name>DevNull: Parent POM</name>
     <url>https://github.com/mcantrell/devnull</url>
+    <parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+    </parent>
     <scm>
         <connection>scm:git:git@github.com:mcantrell/devnull.git</connection>
         <url>scm:git:git@github.com:mcantrell/devnull.git</url>
