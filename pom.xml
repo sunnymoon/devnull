@@ -7,6 +7,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>DevNull: Parent POM</name>
+    <scm>
+        <connection>scm:git:git@github.com:mcantrell/devnull.git</connection>
+        <url>scm:git:git@github.com:mcantrell/devnull.git</url>
+        <developerConnection>scm:git:git@github.com:mcantrell/devnull.git</developerConnection>
+    </scm>
     <modules>
         <module>devnull-orm</module>
         <module>devnull-security</module>
