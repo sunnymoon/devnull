@@ -12,6 +12,20 @@
         <url>scm:git:git@github.com:mcantrell/devnull.git</url>
         <developerConnection>scm:git:git@github.com:mcantrell/devnull.git</developerConnection>
     </scm>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>mcantrell</id>
+            <name>Mike Cantrell</name>
+            <email>mike.humansonly@devnull.org</email>
+        </developer>
+    </developers>
     <modules>
         <module>devnull-orm</module>
         <module>devnull-security</module>
@@ -25,16 +39,6 @@
         <junit.version>4.10</junit.version>
         <log4j.version>1.2.14</log4j.version>
     </properties>
-    <repositories>
-        <repository>
-            <id>spring-repo</id>
-            <url>http://maven.springframework.org</url>
-        </repository>
-        <repository>
-            <id>JBoss repository</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
     <dependencyManagement>
         <dependencies>
             <!-- Core   -->
