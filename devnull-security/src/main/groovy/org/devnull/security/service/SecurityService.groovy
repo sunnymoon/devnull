@@ -42,4 +42,9 @@ public interface SecurityService {
      * Find all users in the system.
      */
     List<User> listUsers()
+
+    /**
+     * Remove the given role from the given user's role collection.
+     */
+    void removeRoleFromUser(Integer  roleId, Integer userId)
 }

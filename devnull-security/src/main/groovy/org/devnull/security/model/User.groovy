@@ -28,7 +28,7 @@ class User implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id
+    Integer id
 
     @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST], fetch=FetchType.EAGER)
     @JoinTable(

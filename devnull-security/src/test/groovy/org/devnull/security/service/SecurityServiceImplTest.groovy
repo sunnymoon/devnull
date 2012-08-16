@@ -77,5 +77,16 @@ public class SecurityServiceImplTest {
         assert results.is(expected)
     }
 
-
+    @Test
+    void removeRoleFromUserShouldRemoveRoleFromCollectionAndSaveUser() {
+        def roleId = 123
+        def userId = 456
+        def roles = [new Role(id: -1), new Role(id:roleId)]
+        def user = new User(id:userId, roles: roles)
+        when(service.userDao.findOne(userId)).thenReturn(user)
+        service.removeRoleFromUser(roleId, userId)
+        verify(service.userDao).save(user)
+        assert user.roles.size() == 1
+        assert user.roles.first() != roleId
+    }
 }
