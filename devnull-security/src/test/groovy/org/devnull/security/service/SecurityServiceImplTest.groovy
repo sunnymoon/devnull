@@ -8,6 +8,7 @@ import org.devnull.security.model.User
 import org.junit.Before
 import org.junit.Test
 import static org.mockito.Mockito.*
+import org.springframework.data.domain.Sort
 
 public class SecurityServiceImplTest {
     SecurityServiceImpl service
@@ -65,6 +66,15 @@ public class SecurityServiceImplTest {
         verify(service.userDao).save(currentUser)
         verify(service.userLookupStrategy, never()).reAuthenticateCurrentUser()
         assert result == currentUser
+    }
+
+    @Test
+    void shouldListAllUsersAndSortByLastName() {
+        def expected = []
+        when(service.userDao.findAll(new Sort("lastName"))).thenReturn(expected)
+        def results = service.listUsers()
+        verify(service.userDao).findAll(new Sort("lastName"))
+        assert results.is(expected)
     }
 
 

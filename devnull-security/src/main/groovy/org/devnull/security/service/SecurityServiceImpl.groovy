@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.context.SecurityContextHolder
 import org.devnull.security.model.Role
+import org.springframework.data.domain.Sort
 
 @Service("securityService")
 @Transactional
@@ -60,5 +61,7 @@ class SecurityServiceImpl implements SecurityService {
         return roleDao.findByName(name)
     }
 
-
+    List<User> listUsers() {
+        return userDao.findAll(new Sort("lastName")) as List
+    }
 }

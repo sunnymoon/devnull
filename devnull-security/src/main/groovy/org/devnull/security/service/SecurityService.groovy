@@ -37,4 +37,9 @@ public interface SecurityService {
      * Lookup an existing role by name
      */
     Role findRoleByName(String name)
+
+    /**
+     * Find all users in the system.
+     */
+    List<User> listUsers()
 }

@@ -4,6 +4,7 @@ import org.devnull.security.BaseSecurityIntegrationTest
 import org.devnull.security.model.User
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 
 class UserDaoIntegrationTest extends BaseSecurityIntegrationTest {
     @Autowired
@@ -64,5 +65,14 @@ class UserDaoIntegrationTest extends BaseSecurityIntegrationTest {
         assert bill.roles.first().name == "ROLE_USER"
         dao.delete(bill.id)
         assert roleDao.findByName("ROLE_USER")
+    }
+
+    @Test
+    void listAllUsersShouldFindAllRecordsInCorrectOrder() {
+        def results = dao.findAll(new Sort("lastName")) as List
+        assert results.size() == 3
+        assert results[0].lastName == "Aykroyd"
+        assert results[1].lastName == "Murray"
+        assert results[2].lastName == "Ramis"
     }
 }
