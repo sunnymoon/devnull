@@ -20,4 +20,6 @@ class Role implements Serializable {
     Integer id
 
     String name
+
+    String description
 }

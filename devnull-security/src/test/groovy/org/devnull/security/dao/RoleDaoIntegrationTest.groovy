@@ -11,12 +11,16 @@ class RoleDaoIntegrationTest extends BaseSecurityIntegrationTest {
 
     @Test
     void listFindsAllRoles() {
-        def roles = roleDao.findAll(new Sort("name"))
+        def roles = roleDao.findAll(new Sort("name")) as List
         assert roles.size() == 4
         assert roles[0].name == "ROLE_ADMIN"
+        assert roles[0].description == "Admin"
         assert roles[1].name == "ROLE_GUEST"
+        assert roles[1].description == "Guest"
         assert roles[2].name == "ROLE_SYSTEM_ADMIN"
+        assert roles[2].description == "Sysadmin"
         assert roles[3].name == "ROLE_USER"
+        assert roles[3].description == "User"
     }
 
     @Test
