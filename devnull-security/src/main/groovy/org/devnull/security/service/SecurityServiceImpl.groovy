@@ -79,4 +79,9 @@ class SecurityServiceImpl implements SecurityService {
         user.addToRoles(roleDao.findOne(roleId))
         return userDao.save(user)
     }
+
+    @Transactional(readOnly=false)
+    void deleteUser(Integer userId) {
+        userDao.delete(userId)
+    }
 }

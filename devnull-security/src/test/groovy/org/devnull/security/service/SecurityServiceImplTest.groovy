@@ -111,5 +111,10 @@ public class SecurityServiceImplTest {
         assert user.roles.contains(newRole)
     }
 
+    @Test
+    void shouldDeleteUser() {
+        service.deleteUser(1)
+        verify(service.userDao).delete(1)
+    }
 
 }

@@ -55,5 +55,8 @@ public interface SecurityService {
      */
     User removeRoleFromUser(Integer roleId, Integer userId)
 
-
+    /**
+     * Delete the user from the system
+     */
+    void deleteUser(Integer userId)
 }
