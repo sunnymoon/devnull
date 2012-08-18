@@ -62,14 +62,21 @@ class SecurityServiceImpl implements SecurityService {
         return userDao.findAll(new Sort("lastName")) as List
     }
 
-    @Transactional(readOnly=false)
-    void removeRoleFromUser(Integer roleId, Integer userId) {
-        def user = userDao.findOne(userId)
-        user.roles.removeAll { it.id == roleId }
-        userDao.save(user)
-    }
-
     List<Role> listRoles() {
         return roleDao.findAll(new Sort("description")) as List
+    }
+
+    @Transactional(readOnly=false)
+    User removeRoleFromUser(Integer roleId, Integer userId) {
+        def user = userDao.findOne(userId)
+        user.roles.removeAll { it.id == roleId }
+        return userDao.save(user)
+    }
+
+    @Transactional(readOnly=false)
+    User addRoleToUser(Integer roleId, Integer userId) {
+        def user = userDao.findOne(userId)
+        user.addToRoles(roleDao.findOne(roleId))
+        return userDao.save(user)
     }
 }

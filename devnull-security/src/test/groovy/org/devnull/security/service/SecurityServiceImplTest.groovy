@@ -7,8 +7,9 @@ import org.devnull.security.model.Role
 import org.devnull.security.model.User
 import org.junit.Before
 import org.junit.Test
-import static org.mockito.Mockito.*
 import org.springframework.data.domain.Sort
+
+import static org.mockito.Mockito.*
 
 public class SecurityServiceImplTest {
     SecurityServiceImpl service
@@ -58,7 +59,7 @@ public class SecurityServiceImplTest {
         verify(service.userLookupStrategy).reAuthenticateCurrentUser()
         assert result == currentUser
     }
-    
+
     @Test
     void updateCurrentUserShouldSaveCurrentUserWithoutReauthencation() {
         when(service.userDao.save(currentUser)).thenReturn(currentUser)
@@ -78,11 +79,19 @@ public class SecurityServiceImplTest {
     }
 
     @Test
-    void removeRoleFromUserShouldRemoveRoleFromCollectionAndSaveUser() {
+    void shouldListAllRolesAndSortByDescription() {
+        def expected = [new Role()]
+        when(service.roleDao.findAll(new Sort("description"))).thenReturn(expected)
+        def results = service.listRoles()
+        assert results.is(expected)
+    }
+
+    @Test
+    void shouldRemoveRoleFromUserAndSave() {
         def roleId = 123
         def userId = 456
-        def roles = [new Role(id: -1), new Role(id:roleId)]
-        def user = new User(id:userId, roles: roles)
+        def roles = [new Role(id: -1), new Role(id: roleId)]
+        def user = new User(id: userId, roles: roles)
         when(service.userDao.findOne(userId)).thenReturn(user)
         service.removeRoleFromUser(roleId, userId)
         verify(service.userDao).save(user)
@@ -91,10 +100,16 @@ public class SecurityServiceImplTest {
     }
 
     @Test
-    void listRolesShouldReturnResultsFromDao() {
-        def expected = [new Role()]
-        when(service.roleDao.findAll(new Sort("description"))).thenReturn(expected)
-        def results = service.listRoles()
-        assert results.is(expected)
+    void shouldAddRoleToUserAndSave() {
+        def newRole = new Role(id:456)
+        def user = new User(id: 1, roles: [new Role(id: 123)])
+        when(service.userDao.findOne(user.id)).thenReturn(user)
+        when(service.roleDao.findOne(newRole.id)).thenReturn(newRole)
+        service.addRoleToUser(newRole.id, user.id)
+        verify(service.userDao).save(user)
+        assert user.roles.size() == 2
+        assert user.roles.contains(newRole)
     }
+
+
 }
