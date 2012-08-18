@@ -46,5 +46,10 @@ public interface SecurityService {
     /**
      * Remove the given role from the given user's role collection.
      */
-    void removeRoleFromUser(Integer  roleId, Integer userId)
+    void removeRoleFromUser(Integer roleId, Integer userId)
+
+    /**
+     * Find all of the roles in the system.
+     */
+    List<Role> listRoles()
 }

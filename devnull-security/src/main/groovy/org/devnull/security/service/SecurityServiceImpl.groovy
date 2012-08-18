@@ -68,4 +68,8 @@ class SecurityServiceImpl implements SecurityService {
         user.roles.removeAll { it.id == roleId }
         userDao.save(user)
     }
+
+    List<Role> listRoles() {
+        return roleDao.findAll(new Sort("description")) as List
+    }
 }

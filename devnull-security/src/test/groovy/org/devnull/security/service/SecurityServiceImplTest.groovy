@@ -89,4 +89,12 @@ public class SecurityServiceImplTest {
         assert user.roles.size() == 1
         assert user.roles.first() != roleId
     }
+
+    @Test
+    void listRolesShouldReturnResultsFromDao() {
+        def expected = [new Role()]
+        when(service.roleDao.findAll(new Sort("description"))).thenReturn(expected)
+        def results = service.listRoles()
+        assert results.is(expected)
+    }
 }
