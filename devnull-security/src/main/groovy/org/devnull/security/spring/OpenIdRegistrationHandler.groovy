@@ -21,7 +21,7 @@ class OpenIdRegistrationHandler extends SimpleUrlAuthenticationFailureHandler {
 
     final def log = LoggerFactory.getLogger(this.class)
 
-    String registrationUrl = "/register"
+    String registrationUrl = "/account/register"
     List<String> defaultRoles = ["ROLE_GUEST"]
 
     @Autowired
