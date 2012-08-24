@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/mcantrell/devnull.png?branch=master)](http://travis-ci.org/mcantrell/devnull)
+
 # DevNull.org Shared Code Repository
 
 This *will be* a set of groovy APIs for re-use on my other personal projects. This is still under heavy development so
