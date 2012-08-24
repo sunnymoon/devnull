@@ -17,7 +17,7 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
             <list>
-                <value>classpath:test-data-config.properties</value>
+                <value>classpath:test-security-config.properties</value>
             </list>
         </property>
     </bean>
@@ -87,4 +87,11 @@ http://www.springframework.org/schema/data/jpa http://www.springframework.org/sc
         <!--suppress SpringModelInspection -->
         <property name="enabled" value="#{'${jdbc.application.generate.ddl}' == 'create-drop'}"/>
     </bean>
+
+
+    <bean id="openIdAuthenticationProvider" class="org.springframework.security.openid.OpenIDAuthenticationProvider">
+        <property name="userDetailsService" ref="openIdUserDetailsService"/>
+    </bean>
+
+    <bean id="authenticationManager" class="org.devnull.security.spring.MockAuthenticationManager"/>
 </beans>
