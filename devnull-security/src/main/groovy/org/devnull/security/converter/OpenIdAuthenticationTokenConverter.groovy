@@ -27,7 +27,7 @@ class OpenIdAuthenticationTokenConverter implements AuthenticationConverter {
             return user
         }
         else {
-            throw new InsufficientAuthenticationException("Authentication type ${authentication.class} is not supported")
+            throw new InsufficientAuthenticationException("Authentication type ${authentication?.class} is not supported")
         }
     }
 }
