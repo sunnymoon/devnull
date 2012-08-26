@@ -1,17 +1,14 @@
 package org.devnull.security.model
 
 import groovy.transform.EqualsAndHashCode
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
 import groovy.transform.ToString
 
+import javax.persistence.*
+
 @Entity
-@Table(name="SecurityRole")
+@Table(name = "SecurityRole")
 @EqualsAndHashCode
-@ToString(includeNames=true)
+@ToString(includeNames = true)
 class Role implements Serializable {
 
 
@@ -22,4 +19,12 @@ class Role implements Serializable {
     String name
 
     String description
+
+    @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST])
+    @JoinTable(
+    name = "SecurityUserRole",
+    joinColumns = @JoinColumn(name = "RoleId"),
+    inverseJoinColumns = @JoinColumn(name = "UserId")
+    )
+    List<User> users = []
 }

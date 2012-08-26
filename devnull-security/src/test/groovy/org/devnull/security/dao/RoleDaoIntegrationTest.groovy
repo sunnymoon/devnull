@@ -30,4 +30,13 @@ class RoleDaoIntegrationTest extends BaseSecurityIntegrationTest {
         def sysAdmin = roleDao.findByName("ROLE_SYSTEM_ADMIN")
         assert sysAdmin.name == "ROLE_SYSTEM_ADMIN"
     }
+
+    @Test
+    void shouldObtainUsersFromRole() {
+        def sysAdmins = roleDao.findByName("ROLE_USER")
+        assert sysAdmins.users.size() == 1
+        def bill = sysAdmins.users.first()
+        assert bill.firstName == "Bill"
+        assert bill.lastName == "Murray"
+    }
 }
