@@ -11,8 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="${symbol_dollar}{pageContext.request.contextPath}/assets/images/favicon.ico">
-    <link rel="stylesheet" href="${symbol_dollar}{pageContext.request.contextPath}/assets/ext/bootstrap-2.0.4/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="${symbol_dollar}{pageContext.request.contextPath}/assets/ext/bootstrap-2.0.4/css/bootstrap-responsive.min.css" type="text/css">
+    <link rel="stylesheet" href="${symbol_dollar}{pageContext.request.contextPath}/assets/ext/bootstrap-2.1.0/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="${symbol_dollar}{pageContext.request.contextPath}/assets/ext/bootstrap-2.1.0/css/bootstrap-responsive.min.css" type="text/css">
     <link rel="stylesheet" href="${symbol_dollar}{pageContext.request.contextPath}/assets/css/main.css" type="text/css">
     <script src="${symbol_dollar}{pageContext.request.contextPath}/assets/ext/jquery-1.7.2.min.js"></script>
     <script src="${symbol_dollar}{pageContext.request.contextPath}/assets/js/main.js"></script>
@@ -41,7 +41,7 @@
                         <li><a href="${symbol_pound}tab2">Tab 2</a></li>
                     </ul>
                     <p class="navbar-text pull-right">
-                        <a href="${symbol_pound}login"class="btn btn-primary">Login</a>
+                        <a href="${symbol_pound}login"class="btn btn-primary" style="margin-top: 0;">Login</a>
                     </p>
                 </div>
             </div>
