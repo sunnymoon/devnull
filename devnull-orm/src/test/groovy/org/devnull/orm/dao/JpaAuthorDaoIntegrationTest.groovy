@@ -6,6 +6,8 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
 import org.devnull.orm.BaseIntegrationTest
+import org.devnull.orm.model.Author
+import javax.validation.ConstraintViolationException
 
 class JpaAuthorDaoIntegrationTest extends BaseIntegrationTest {
 
@@ -41,6 +43,12 @@ class JpaAuthorDaoIntegrationTest extends BaseIntegrationTest {
         def results = authorDao.findByLastName("Chang")
         assert results.size() == 1
         assert results.first().lastName == "Chang"
+    }
+
+    @Test(expected=ConstraintViolationException)
+    void shouldRequireLastNameWithMinLength() {
+        def author = new Author(firstName: "Joel", lastName: "R")
+        authorDao.save(author)
     }
 
 }

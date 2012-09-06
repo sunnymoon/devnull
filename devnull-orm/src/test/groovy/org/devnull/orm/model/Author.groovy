@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.OneToMany
+import javax.validation.constraints.Size
 
 @Entity
 @EqualsAndHashCode(excludes = 'books')
@@ -18,7 +19,10 @@ class Author implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id
 
+    @Size(min=2)
     String firstName
+
+    @Size(min=2)
     String lastName
 
     @OneToMany(mappedBy = 'author', cascade = CascadeType.ALL, orphanRemoval = true)
