@@ -4,6 +4,7 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
 import javax.persistence.*
+import javax.validation.constraints.Pattern
 
 @Entity
 @Table(name = "SecurityRole")
@@ -16,6 +17,7 @@ class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id
 
+    @Pattern(regexp="^ROLE_.*")
     String name
 
     String description

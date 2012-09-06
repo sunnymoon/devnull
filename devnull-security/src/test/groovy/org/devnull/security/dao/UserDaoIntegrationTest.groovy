@@ -5,6 +5,7 @@ import org.devnull.security.model.User
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
+import javax.validation.ConstraintViolationException
 
 class UserDaoIntegrationTest extends BaseSecurityIntegrationTest {
     @Autowired
@@ -74,5 +75,11 @@ class UserDaoIntegrationTest extends BaseSecurityIntegrationTest {
         assert results[0].lastName == "Aykroyd"
         assert results[1].lastName == "Murray"
         assert results[2].lastName == "Ramis"
+    }
+
+    @Test(expected=ConstraintViolationException)
+    void shouldRequireFormattedEmailAddress() {
+        def user = new User(firstName:"Joe", lastName: "Blow", email: "bademail")
+        dao.save(user)
     }
 }

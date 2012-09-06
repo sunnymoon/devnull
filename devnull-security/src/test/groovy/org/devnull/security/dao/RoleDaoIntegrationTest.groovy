@@ -4,6 +4,8 @@ import org.devnull.security.BaseSecurityIntegrationTest
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
+import org.devnull.security.model.Role
+import javax.validation.ConstraintViolationException
 
 class RoleDaoIntegrationTest extends BaseSecurityIntegrationTest {
     @Autowired
@@ -38,5 +40,19 @@ class RoleDaoIntegrationTest extends BaseSecurityIntegrationTest {
         def bill = sysAdmins.users.first()
         assert bill.firstName == "Bill"
         assert bill.lastName == "Murray"
+    }
+
+    @Test(expected=ConstraintViolationException)
+    void shouldRequireValidRoleName() {
+        def role = new Role(name: "bad")
+        roleDao.save(role)
+    }
+
+    @Test
+    void shouldCreateNewRole() {
+        def role = new Role(name: "ROLE_TEST")
+        def count = roleDao.count()
+        roleDao.save(role)
+        assert roleDao.count() == count + 1
     }
 }

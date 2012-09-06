@@ -16,6 +16,9 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.FetchType
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
+import javax.validation.constraints.NotNull
 
 @Entity
 @Table(name = "SecurityUser")
@@ -39,9 +42,18 @@ class User implements Serializable, UserDetails {
     List<Role> roles = []
 
     String openId
+
+
+    @Pattern(regexp=".{1,50}\\@.{1,100}")
     String email
+
+    @Size(min=2)
     String firstName
+
+    @Size(min=2)
     String lastName
+
+    @NotNull
     Boolean enabled = true
 
     /**
