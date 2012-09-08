@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home | DevNull</title>
+    <!--#include file="header.shtml" -->
+</head>
+
+<body>
+<div class="container">
+    <!--#include file="topNav.shtml" -->
+    <div class="row">
+        <div class="span12">
+            <div class="hero-unit">
+                <h1>Zuul</h1>
+
+                <p>Centrally manage and secure your application configurations</p>
+
+                <p><a class="btn btn-primary btn-large" href="zuul.shtml">More &raquo;</a></p>
+            </div>
+        </div>
+
+    </div>
+    <!--#include file="footer.shtml" -->
+</div>
+</body>
+</html>
