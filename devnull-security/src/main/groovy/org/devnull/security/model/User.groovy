@@ -44,7 +44,7 @@ class User implements Serializable, UserDetails {
     String openId
 
 
-    @Pattern(regexp=".{1,50}\\@.{1,100}")
+    @Pattern(regexp=".{1,50}\\@.{1,100}", message="Email must be properly formatted")
     String email
 
     @Size(min=2)
