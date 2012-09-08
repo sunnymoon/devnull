@@ -10,8 +10,7 @@
 
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li id="home" class="active"><a href="index.shtml">Home</a></li>
-                    <li id="zuul"><a href="zuul.shtml">Zuul</a></li>
+                    <li id="zuul"><a href="index.shtml">Zuul</a></li>
                     <li><a href="https://github.com/mcantrell/" target="_blank">Github</a></li>
                 </ul>
             </div>
