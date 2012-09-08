@@ -10,7 +10,15 @@
 <body>
 <div class="container">
     <!--#include file="topNav.shtml" -->
-
+    <div class="row">
+        <div class="span12">
+            <div class="page-header">
+                <h1>Zuul
+                    <small>Application Configuration Management..</small>
+                </h1>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="span10 offset1">
             <div id="zuulCarousel" class="carousel slide">
@@ -83,7 +91,7 @@
                 <a class="btn btn-primary btn-large" href="https://github.com/mcantrell/zuul" target="_blank">Source
                     Code &raquo;</a>
                 <a class="btn btn-primary btn-large"
-                   href="https://github.com/mcantrell/Zuul/wiki">Documentation &raquo;</a>
+                   href="https://github.com/mcantrell/Zuul/wiki" target="_blank">Documentation &raquo;</a>
             </div>
         </div>
     </div>
