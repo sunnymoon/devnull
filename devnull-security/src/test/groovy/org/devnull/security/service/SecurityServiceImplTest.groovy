@@ -117,4 +117,10 @@ public class SecurityServiceImplTest {
         verify(service.userDao).delete(1)
     }
 
+    @Test
+    void shouldCountUsers() {
+        when(service.userDao.count()).thenReturn(22L)
+        assert service.countUsers() == 22L
+    }
+
 }

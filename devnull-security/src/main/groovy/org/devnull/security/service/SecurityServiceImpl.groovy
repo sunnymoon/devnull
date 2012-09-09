@@ -58,6 +58,10 @@ class SecurityServiceImpl implements SecurityService {
         return roleDao.findByName(name)
     }
 
+    Long countUsers() {
+        return userDao.count()
+    }
+
     List<User> listUsers() {
         return userDao.findAll(new Sort("lastName")) as List
     }

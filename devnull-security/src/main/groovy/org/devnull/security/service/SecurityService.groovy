@@ -39,6 +39,11 @@ public interface SecurityService {
     Role findRoleByName(String name)
 
     /**
+     * Count all of the users in the system
+     */
+    Long countUsers()
+
+    /**
      * Find all users in the system.
      */
     List<User> listUsers()
