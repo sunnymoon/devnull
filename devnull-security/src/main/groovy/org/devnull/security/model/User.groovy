@@ -19,9 +19,13 @@ import javax.persistence.FetchType
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.constraints.NotNull
+import org.hibernate.annotations.Index
+import javax.persistence.UniqueConstraint
 
 @Entity
-@Table(name = "SecurityUser")
+@Table(name = "SecurityUser", uniqueConstraints = [
+    @UniqueConstraint(columnNames=["openId"])
+])
 @EqualsAndHashCode(excludes = "roles")
 @ToString(excludes = "roles", includeNames = true)
 class User implements Serializable, UserDetails {
