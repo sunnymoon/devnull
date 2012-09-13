@@ -51,10 +51,10 @@ class User implements Serializable, UserDetails {
     @Pattern(regexp=".{1,50}\\@.{1,100}", message="Email must be properly formatted")
     String email
 
-    @Size(min=2)
+    @Size(min=1, message="First name cannot be empty")
     String firstName
 
-    @Size(min=2)
+    @Size(min=1, message="Last name cannot be empty")
     String lastName
 
     @NotNull
