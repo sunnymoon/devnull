@@ -3,14 +3,12 @@ package org.devnull.security.model
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
-import javax.persistence.*
 import javax.validation.constraints.Pattern
-import org.hibernate.annotations.Index
-
+import javax.persistence.*
 
 @Entity
 @Table(name = "SecurityRole", uniqueConstraints = [
-    @UniqueConstraint(columnNames=["name"])
+@UniqueConstraint(columnNames = ["name"])
 ])
 @EqualsAndHashCode
 @ToString(includeNames = true)
@@ -21,7 +19,7 @@ class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id
 
-    @Pattern(regexp="^ROLE_.*", message="Role names must begin with ROLE_")
+    @Pattern(regexp = "^ROLE_.*", message = "Role names must begin with ROLE_")
     String name
 
     String description
