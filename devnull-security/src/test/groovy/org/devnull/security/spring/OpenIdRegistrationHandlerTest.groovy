@@ -41,7 +41,7 @@ public class OpenIdRegistrationHandlerTest {
 
 
     @Test
-    void onAuthenticationFailureShouldDenyWhenConverterThrowsException() {
+    void shouldDenyWhenConverterThrowsException() {
         def exception = mock(AuthenticationException)
         when(handler.authenticationConverter.convert(Matchers.any(Authentication))).thenThrow(new InsufficientAuthenticationException("test error"))
         handler.onAuthenticationFailure(mockRequest, mockResponse, exception)
@@ -50,7 +50,7 @@ public class OpenIdRegistrationHandlerTest {
     }
 
     @Test
-    void onAuthenticationFailureShouldSaveAndRedirectWhenConverterCreatesUser() {
+    void shouldSaveAndRedirectWhenConverterCreatesUser() {
         def mockUser = new User()
         def exception = mock(AuthenticationException)
 
@@ -63,7 +63,7 @@ public class OpenIdRegistrationHandlerTest {
         assert mockResponse.status < 400
         assert mockResponse.redirectedUrl == handler.registrationUrl
     }
-    
+
 
 
 
