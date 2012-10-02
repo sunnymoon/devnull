@@ -150,6 +150,11 @@
                 <artifactId>spring-security-openid</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-ldap</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
 
             <!-- Apache Commons -->
             <dependency>
