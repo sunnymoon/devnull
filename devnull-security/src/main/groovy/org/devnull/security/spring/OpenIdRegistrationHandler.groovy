@@ -35,7 +35,7 @@ class OpenIdRegistrationHandler extends SimpleUrlAuthenticationFailureHandler {
         log.info("Creating new account unregistered user for auth: {}", e.authentication)
         try {
             def user = authenticationConverter.convert(e.authentication)
-            def roles = securityService.countUsers() ? firstUserRoles : defaultRoles
+            def roles = securityService.countUsers() ? defaultRoles : firstUserRoles
             securityService.createNewUser(user, roles)
             reAuthenticate(e.authentication)
             new DefaultRedirectStrategy().sendRedirect(request, response, registrationUrl)
