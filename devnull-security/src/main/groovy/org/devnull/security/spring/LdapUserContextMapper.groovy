@@ -10,6 +10,7 @@ import org.springframework.security.authentication.DisabledException
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper
+import org.apache.commons.collections.map.CaseInsensitiveMap
 
 @Slf4j
 class LdapUserContextMapper implements UserDetailsContextMapper {
@@ -26,12 +27,12 @@ class LdapUserContextMapper implements UserDetailsContextMapper {
     ]
 
     LdapUserContextMapper(Map<String, List<String>> groupToRolesMapping) {
-        this.groupToRolesMapping = groupToRolesMapping
+        this.groupToRolesMapping = new CaseInsensitiveMap(groupToRolesMapping)
     }
 
     UserDetails mapUserFromContext(DirContextOperations ctx, String username,
                                    Collection<? extends GrantedAuthority> authorities) {
-        log.info("Mapping LDAP user to custom User")
+        log.info("Mapping LDAP user to custom User: username={}, authorities={}", username, authorities)
         // TODO change user object to not depend on openid
         def user = securityService.findUserByOpenId("http://ldap.devnull.org/${username}")
         if (!user) {
@@ -56,6 +57,7 @@ class LdapUserContextMapper implements UserDetailsContextMapper {
     protected User addNewUser(User user, List<String> externalAuthorities) {
         def roles = []
         externalAuthorities.each {
+            log.debug("Checking groupsToRolesMapping for group={}", it)
             def mappings = groupToRolesMapping[it]
             if (mappings) {
                 roles += mappings
@@ -63,10 +65,10 @@ class LdapUserContextMapper implements UserDetailsContextMapper {
         }
         if (!roles) {
             // TODO better exception.. this isn't the intended use of this exception but it's a close fit for now
-            throw new DisabledException("User does not belong to any of the configured roles: ${groupToRolesMapping}. LDAP groups: ${externalAuthorities}")
+            log.warn("No matching groups found for user. user={}, groups={}, groupToRolesMapping={}", user, externalAuthorities, groupToRolesMapping)
+            throw new DisabledException("User does not belong to any of the configured roles. Check log for details.")
         }
         return securityService.createNewUser(user, roles)
     }
-
 
 }

@@ -73,6 +73,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Commons -->
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework</groupId>

@@ -33,6 +33,11 @@ class LdapUserContextMapperTest {
     }
 
     @Test
+    void shouldNotBeCaseSensitive() {
+        assert mapper.groupToRolesMapping["CN=Single Role User,DC=devnull,DC=org"] == ["ROLE_USER_SINGLE"]
+    }
+
+    @Test
     void shouldNotCreateUserIfRecordAlreadyExists() {
         def username = "testUser"
         def url = "http://ldap.devnull.org/${username}"
