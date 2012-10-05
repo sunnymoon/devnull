@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.devnull.security.dao.UserDao
+
 import org.slf4j.LoggerFactory
 import org.devnull.security.service.SecurityService
 
@@ -21,7 +21,7 @@ class OpenIdUserDetailsService implements UserDetailsService {
 
     UserDetails loadUserByUsername(String openIdToken) {
         log.debug("Attempting to load user by token {}", openIdToken)
-        def user = securityService.findUserByOpenId(openIdToken)
+        def user = securityService.findByUserName(openIdToken)
         log.debug("User={}", user)
         if (!user) {
             throw new UsernameNotFoundException("Unable to locate user with open id token :${openIdToken}")

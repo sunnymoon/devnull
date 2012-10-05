@@ -34,7 +34,7 @@ class LdapUserContextMapper implements UserDetailsContextMapper {
                                    Collection<? extends GrantedAuthority> authorities) {
         log.info("Mapping LDAP user to custom User: username={}, authorities={}", username, authorities)
         // TODO change user object to not depend on openid
-        def user = securityService.findUserByOpenId("http://ldap.devnull.org/${username}")
+        def user = securityService.findByUserName("http://ldap.devnull.org/${username}")
         if (!user) {
             def openId = "http://ldap.devnull.org/${username}"
             def email = ctx.getStringAttribute(attributesToPropertyNames.email)
@@ -42,7 +42,7 @@ class LdapUserContextMapper implements UserDetailsContextMapper {
             def firstName = ctx.getStringAttribute(attributesToPropertyNames.firstName)
             log.info("Creating new user: openId={}, email={}, firstName={}, lastName={}", openId, email, firstName, lastName)
             user = addNewUser(
-                    new User(firstName: firstName, lastName: lastName, email: email, openId: openId),
+                    new User(firstName: firstName, lastName: lastName, email: email, userName: openId),
                     authorities.collect { it.authority }
             )
 

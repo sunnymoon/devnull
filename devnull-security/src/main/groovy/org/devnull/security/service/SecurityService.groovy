@@ -11,12 +11,12 @@ public interface SecurityService {
     User getCurrentUser()
 
     /**
-     * Find a user with the matching openid token
+     * Find a user with the matching username
      *
-     * @param openId
+     * @param userName
      * @return persisted version of the user
      */
-    User findUserByOpenId(String openId)
+    User findByUserName(String userName)
 
     /**
      * Create a new user with the given roles

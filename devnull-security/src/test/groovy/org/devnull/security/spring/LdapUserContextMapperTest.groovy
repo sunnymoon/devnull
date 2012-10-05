@@ -9,7 +9,6 @@ import org.springframework.ldap.core.DirContextOperations
 import org.springframework.security.authentication.DisabledException
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 
-import static org.mockito.Matchers.*
 import static org.mockito.Mockito.*
 
 class LdapUserContextMapperTest {
@@ -43,8 +42,8 @@ class LdapUserContextMapperTest {
         def url = "http://ldap.devnull.org/${username}"
         def context = mock(DirContextOperations)
         def groups = convertToAuthorities(["cn=Single Role User,dc=devnull,dc=org"])
-        def user = new User(id: 1, openId: url)
-        when(mapper.securityService.findUserByOpenId(url)).thenReturn(user)
+        def user = new User(id: 1, userName: url)
+        when(mapper.securityService.findByUserName(url)).thenReturn(user)
         def result = mapper.mapUserFromContext(context, username, groups)
         verify(mapper.securityService, never()).createNewUser(Matchers.any(User), Matchers.any(List))
         assert result == user
@@ -73,7 +72,7 @@ class LdapUserContextMapperTest {
         def url = "http://ldap.devnull.org/${username}"
         def context = mock(DirContextOperations)
         def groups = convertToAuthorities(["cn=Single Role User,dc=devnull,dc=org"])
-        def user = new User(email: "testUser@devnull.org", firstName: "Test", lastName: "User", openId: url)
+        def user = new User(email: "testUser@devnull.org", firstName: "Test", lastName: "User", userName: url)
         when(context.getStringAttribute(mapper.attributesToPropertyNames.email)).thenReturn(user.email)
         when(context.getStringAttribute(mapper.attributesToPropertyNames.firstName)).thenReturn(user.firstName)
         when(context.getStringAttribute(mapper.attributesToPropertyNames.lastName)).thenReturn(user.lastName)

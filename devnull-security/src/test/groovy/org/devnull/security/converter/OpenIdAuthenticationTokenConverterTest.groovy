@@ -36,7 +36,7 @@ public class OpenIdAuthenticationTokenConverterTest {
         def token = createToken(OpenIDAuthenticationStatus.SUCCESS, attributes)
         def user = converter.convert(token)
         assert user
-        assert user.openId == "http://fake.openid.com"
+        assert user.userName == "http://fake.openid.com"
         assert user.email == "test@foo.com"
         assert user.firstName == "John"
         assert user.lastName == "Doe"
@@ -50,7 +50,7 @@ public class OpenIdAuthenticationTokenConverterTest {
         def token = createToken(OpenIDAuthenticationStatus.SUCCESS, attributes)
         def user = converter.convert(token)
         assert user
-        assert user.openId == "http://fake.openid.com"
+        assert user.userName == "http://fake.openid.com"
         assert user.email == "test@foo.com"
         assert user.firstName == null
         assert user.lastName == null

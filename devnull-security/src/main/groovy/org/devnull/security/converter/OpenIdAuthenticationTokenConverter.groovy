@@ -19,7 +19,7 @@ class OpenIdAuthenticationTokenConverter implements AuthenticationConverter {
             if (token.status != OpenIDAuthenticationStatus.SUCCESS) {
                 throw new BadCredentialsException("Invalid token status: ${token.status}, messsage: ${token.message}")
             }
-            def user = new User(openId: token.identityUrl)
+            def user = new User(userName: token.identityUrl)
             user.email = token.attributes.find { it.name == ATTR_EMAIL }?.values?.first()
             user.firstName = token.attributes.find { it.name == ATTR_FIRST_NAME }?.values?.first()
             user.lastName = token.attributes.find { it.name == ATTR_LAST_NAME }?.values?.first()

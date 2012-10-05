@@ -30,8 +30,8 @@ class SecurityServiceImpl implements SecurityService {
         return userLookupStrategy.lookupCurrentUser()
     }
 
-    User findUserByOpenId(String openId) {
-        return userDao.findByOpenId(openId)
+    User findByUserName(String userName) {
+        return userDao.findByUserName(userName)
     }
 
     @Transactional(readOnly=false)

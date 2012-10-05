@@ -22,7 +22,7 @@ public class SecurityServiceImplTest {
                 roleDao: mock(RoleDao),
                 userLookupStrategy: mock(UserLookupStrategy)
         )
-        currentUser = new User(id: 20314, openId: "http://test.openid.com", firstName: "John", lastName: "Doe", email: "jdoe@test.com")
+        currentUser = new User(id: 20314, userName: "http://test.openid.com", firstName: "John", lastName: "Doe", email: "jdoe@test.com")
         currentUser.roles = [new Role(id: 1, name: "a"), new Role(id: 2, name: "b"), new Role(id: 3, name: "c")]
         when(service.userLookupStrategy.lookupCurrentUser()).thenReturn(currentUser)
     }

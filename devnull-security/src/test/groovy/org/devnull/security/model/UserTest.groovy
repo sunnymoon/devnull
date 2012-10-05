@@ -9,15 +9,15 @@ public class UserTest {
 
     @Before
     void createUser() {
-        user = new User(id:1, openId:"http://fake.openid.com", firstName: "Billy", lastName: "Bob", email:"bob@aol.com")
+        user = new User(id:1, userName:"http://fake.openid.com", firstName: "Billy", lastName: "Bob", email:"bob@aol.com")
         def roles = [new Role(id: 1, name: "a"), new Role(id: 2, name: "b"), new Role(id: 3, name: "c")]
         user.roles = roles
     }
 
     @Test
     void setOpenIdShouldBeImmutableOnceSet() {
-        user.openId = "http://hacked.openid.com"
-        assert user.openId == "http://fake.openid.com"
+        user.userName = "http://hacked.openid.com"
+        assert user.userName == "http://fake.openid.com"
     }
     
     @Test

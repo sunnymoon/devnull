@@ -16,9 +16,9 @@ class UserDaoIntegrationTest extends BaseSecurityIntegrationTest {
 
     @Test
     void createMissingGhostBusterShouldPersistRecord() {
-        def user = new User(openId: 'http://fake.openid.com/ehudson', firstName: 'Ernie', lastName: 'Hudson', email: 'ehudson@ghostbusters.com')
+        def user = new User(userName: 'http://fake.openid.com/ehudson', firstName: 'Ernie', lastName: 'Hudson', email: 'ehudson@ghostbusters.com')
         def ernie = dao.save(user)
-        assert ernie.openId == 'http://fake.openid.com/ehudson'
+        assert ernie.userName == 'http://fake.openid.com/ehudson'
         assert ernie.accountNonExpired
         assert ernie.accountNonLocked
         assert ernie.enabled
@@ -27,19 +27,19 @@ class UserDaoIntegrationTest extends BaseSecurityIntegrationTest {
 
     @Test
     void findByOpenIdShouldReturnCorrectRecord() {
-        def user = dao.findByOpenId("http://fake.openid.com/daykroyd")
-        assert user.openId == "http://fake.openid.com/daykroyd"
+        def user = dao.findByUserName("http://fake.openid.com/daykroyd")
+        assert user.userName == "http://fake.openid.com/daykroyd"
     }
 
     @Test
     void saveShouldPersistAddedRoles() {
-        def bill = dao.findByOpenId("http://fake.openid.com/bmurray")
+        def bill = dao.findByUserName("http://fake.openid.com/bmurray")
         assert bill.roles.size() == 1
         assert bill.roles.first().name == "ROLE_USER"
         bill.roles << roleDao.findByName("ROLE_SYSTEM_ADMIN")
         dao.save(bill)
 
-        bill = dao.findByOpenId("http://fake.openid.com/bmurray")
+        bill = dao.findByUserName("http://fake.openid.com/bmurray")
         assert bill.roles.size() == 2
         assert bill.roles.find { it.name == "ROLE_USER" }
         assert bill.roles.find { it.name == "ROLE_SYSTEM_ADMIN" }
@@ -47,21 +47,21 @@ class UserDaoIntegrationTest extends BaseSecurityIntegrationTest {
 
     @Test
     void saveShouldRemoveRoleWithoutCascading() {
-        def bill = dao.findByOpenId("http://fake.openid.com/bmurray")
+        def bill = dao.findByUserName("http://fake.openid.com/bmurray")
         assert bill.roles.size() == 1
         assert bill.roles.first().name == "ROLE_USER"
 
         bill.roles.remove(0)
         dao.save(bill)
 
-        bill = dao.findByOpenId("http://fake.openid.com/bmurray")
+        bill = dao.findByUserName("http://fake.openid.com/bmurray")
         assert bill.roles.size() == 0
         assert roleDao.findByName("ROLE_USER")
     }
 
     @Test
     void deleteShouldNotCascadeToRoles() {
-        def bill = dao.findByOpenId("http://fake.openid.com/bmurray")
+        def bill = dao.findByUserName("http://fake.openid.com/bmurray")
         assert bill.roles.size() == 1
         assert bill.roles.first().name == "ROLE_USER"
         dao.delete(bill.id)

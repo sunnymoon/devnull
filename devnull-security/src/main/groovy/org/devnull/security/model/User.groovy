@@ -19,12 +19,12 @@ import javax.persistence.FetchType
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.constraints.NotNull
-import org.hibernate.annotations.Index
+
 import javax.persistence.UniqueConstraint
 
 @Entity
 @Table(name = "SecurityUser", uniqueConstraints = [
-    @UniqueConstraint(columnNames=["openId"])
+    @UniqueConstraint(columnNames=["userName"])
 ])
 @EqualsAndHashCode(excludes = "roles")
 @ToString(excludes = "roles", includeNames = true)
@@ -45,7 +45,7 @@ class User implements Serializable, UserDetails {
     )
     List<Role> roles = []
 
-    String openId
+    String userName
 
 
     @Pattern(regexp=".{1,50}\\@.{1,100}", message="Email must be properly formatted")
@@ -76,12 +76,12 @@ class User implements Serializable, UserDetails {
      * Immutable once set
      * @param id
      */
-    void setOpenId(String openId) {
-        if (this.openId) {
-            log.warn("attempt to alter openId from: {}, to: {}", this.openId, openId)
+    void setUserName(String openId) {
+        if (this.userName) {
+            log.warn("attempt to alter openId from: {}, to: {}", this.userName, openId)
             return
         }
-        this.openId = openId
+        this.userName = openId
     }
 
     Collection<GrantedAuthority> getAuthorities() {
@@ -93,7 +93,7 @@ class User implements Serializable, UserDetails {
     }
 
     String getUsername() {
-        return openId
+        return userName
     }
 
     boolean isAccountNonExpired() {

@@ -19,16 +19,16 @@ class OpenIdUserDetailsServiceTest {
 
     @Test
     void loadUserByNameShouldConstructUser() {
-        def mockUser = new User(openId: 'abc')
-        when(service.securityService.findUserByOpenId('abc')).thenReturn(mockUser)
+        def mockUser = new User(userName: 'abc')
+        when(service.securityService.findByUserName('abc')).thenReturn(mockUser)
         def user = service.loadUserByUsername('abc')
-        verify(service.securityService).findUserByOpenId('abc')
+        verify(service.securityService).findByUserName('abc')
         assert user.is(mockUser)
     }
 
     @Test(expected = UsernameNotFoundException)
     void loadUserByNameShouldErrorIfUserNotFound() {
-        when(service.securityService.findUserByOpenId('abc')).thenReturn(null)
+        when(service.securityService.findByUserName('abc')).thenReturn(null)
         service.loadUserByUsername('abc')
     }
 }

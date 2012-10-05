@@ -2,10 +2,9 @@ package org.devnull.security.service
 
 import org.devnull.security.BaseSecurityIntegrationTest
 import org.devnull.security.model.User
-import org.devnull.security.spring.OpenIdUserDetailsService
+
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 public class SecurityServiceIntegrationTest extends BaseSecurityIntegrationTest {
 
@@ -14,7 +13,7 @@ public class SecurityServiceIntegrationTest extends BaseSecurityIntegrationTest 
 
     @Test
     void findUserByOpenIdShouldFindDanAykroyd() {
-        def dan = service.findUserByOpenId('http://fake.openid.com/daykroyd') as User
+        def dan = service.findByUserName('http://fake.openid.com/daykroyd') as User
         assert dan.firstName == "Dan"
         assert dan.lastName == "Aykroyd"
         assert dan.email == "daykroyd@ghostbusters.com"
@@ -25,7 +24,7 @@ public class SecurityServiceIntegrationTest extends BaseSecurityIntegrationTest 
 
     @Test()
     void findUserByOpenIdShouldNotFindRickMoranis() {
-        def rick = service.findUserByOpenId('http://fake.openid.com/rmoranis')
+        def rick = service.findByUserName('http://fake.openid.com/rmoranis')
         assert !rick
     }
 

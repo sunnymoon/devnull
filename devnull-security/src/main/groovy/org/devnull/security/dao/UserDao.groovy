@@ -5,7 +5,7 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.data.jpa.repository.Modifying
 
 interface UserDao extends PagingAndSortingRepository<User, Integer> {
-    User findByOpenId(String openId)
+    User findByUserName(String userName)
 
     @Modifying
     User save(User entity)
