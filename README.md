@@ -2,8 +2,7 @@
 
 # DevNull.org Shared Code Repository
 
-This *will be* a set of groovy APIs for re-use on my other personal projects. This is still under heavy development so
-*use at your own peril*.
+Internal API code for my personal projects.
 
 [View the wiki pages for documentation](https://github.com/mcantrell/devnull/wiki/)
 
