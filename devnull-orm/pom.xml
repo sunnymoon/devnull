@@ -6,12 +6,11 @@
 
     <groupId>org.devnull</groupId>
     <artifactId>devnull-orm</artifactId>
-    <version>1.0-RC1</version>
     <name>DevNull: ORM</name>
     <parent>
         <artifactId>devnull-parent</artifactId>
         <groupId>org.devnull</groupId>
-        <version>1.0-RC1</version>
+        <version>1.0-RC1-SNAPSHOT</version>
     </parent>
     <dependencies>
         <!-- Spring Framework -->
