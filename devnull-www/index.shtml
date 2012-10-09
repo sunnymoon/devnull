@@ -89,9 +89,9 @@
             <div class="btn-group" style="text-align: center;">
                 <a id="zuulDownload" class="btn btn-danger btn-large" title="Snapshot"
                    data-content="This is a pre-release version. It is still under active development. It will be updated often until the final release."
-                   href="https://s3.amazonaws.com/devnull.org/zuul-web-1.0-RC1.war">
+                   href="https://s3.amazonaws.com/devnull.org/zuul-web-1.0-SNAPSHOT.war">
                     <i class="icon-download icon-white"></i>
-                    Download 1.0-RC1
+                    Download 1.0-SNAPSHOT
                 </a>
                 <a class="btn btn-primary btn-large" href="https://github.com/mcantrell/zuul" target="_blank">Source
                     Code &raquo;</a>
