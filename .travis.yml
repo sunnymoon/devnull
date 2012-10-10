@@ -1,2 +1,3 @@
 language: groovy
-script: "mvn clean test"
+install: "mvn install -P ci -U --quiet -DskipTests=true"
+script: "mvn -U -P ci test"
