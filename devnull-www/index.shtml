@@ -17,11 +17,11 @@
                     <small>Application Configuration Management..</small>
                 </h1>
             </div>
-            <div class="alert alert-warning">
-                This is still under very active development. I expect to have the first release
-                candidate available in a few weeks. Feel free to poke around at the snapshot release
-                until then.
-            </div>
+            <blockquote>
+                Zuul is a free, open source web application which can be used to centralize and manage
+                configuration for your internal applications. It enables your operations team
+                to control changes and your developers a centralized place to organize settings.
+            </blockquote>
         </div>
     </div>
     <div class="row">
@@ -84,14 +84,16 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row vertical-spaced">
         <div class="span12">
             <div class="btn-group" style="text-align: center;">
                 <a id="zuulDownload" class="btn btn-danger btn-large" title="Snapshot"
-                   data-content="This is a pre-release version. It is still under active development. It will be updated often until the final release."
-                   href="https://s3.amazonaws.com/devnull.org/zuul-web-1.0-SNAPSHOT.war">
+                   data-content="This is a release candidate which means that development features
+                   are finalized but it has not been widely evaluated. Please provide any feedback and
+                   report any bugs you encounter at the Github site."
+                   href="https://s3.amazonaws.com/devnull.org/zuul-web-1.0-RC1.war">
                     <i class="icon-download icon-white"></i>
-                    Download 1.0-SNAPSHOT
+                    Download 1.0-RC1
                 </a>
                 <a class="btn btn-primary btn-large" href="https://github.com/mcantrell/zuul" target="_blank">Source
                     Code &raquo;</a>
@@ -102,78 +104,41 @@
         </div>
     </div>
 
-    <div id="features" class="row">
+    <div class="row vertical-spaced">
         <div class="span10 offset1">
-            <h2>Features</h2>
-            <br>
+            <ul class="nav nav-tabs" id="zuulFeaturesTab">
+                <li class="active"><a href="#features">Features</a></li>
+                <li><a href="#roadmap">Road Map</a></li>
+            </ul>
 
-            <div class="row">
-                <div class="span3">
-                    <h4>Centralized Management</h4>
-                    <hr>
-                    <p>
-                        Provision your application configuration files by environment and configure them in a
-                        single location. Let your support and operations team view and configure important
-                        resources such as database URLs and credentials.
-                    </p>
+            <div class="tab-content">
+                <div class="tab-pane active" id="features">
+                    <!--#include file="features.shtml" -->
                 </div>
-                <div class="span3">
-                    <h4>Encryption</h4>
-                    <hr>
-                    <p>
-                        Encrypt sensitive values using the popular <a href="http://www.jasypt.org/">Jasypt library</a>
-                    </p>
-                </div>
-                <div class="span3">
-                    <h4>RESTful Services</h4>
-                    <hr>
-                    <p>
-                        Easily access the configuration data from within your application via RESTful services. Content
-                        can be rendered as JSON or Java Properties files.
-                    </p>
+                <div class="tab-pane" id="roadmap">
+                    <!--#include file="roadmap.shtml" -->
                 </div>
             </div>
-            <div style="margin-top: 9px;" class="row">
-                <div class="span3">
-                    <h4>Role Based Access Controls</h4>
-                    <hr>
-                    <p>
-                        System administrators can easily control who has access to which features with user
-                        to role mappings.
-                    </p>
-                </div>
-
-                <div class="span3">
-                    <h4>Single Sign On</h4>
-                    <hr>
-                    <p>
-                        Integrates with popular single sign on providers such as Google and Yahoo via OpenID.
-                    </p>
-                </div>
-                <div class="span3">
-                    <h4>Spring Client</h4>
-                    <hr>
-                    <p>
-                        Seamlessly integrate your <a href="http://springframework.org/">Spring applications</a> with
-                        our custom client and spring XML namespace.
-                    </p>
-                </div>
-            </div>
-            <br>
-
-            <div class="well">
-                <h3>More to Come.. <a target="_blank" href="http://github.com/mcantrell/zuul">Visit the GitHub site</a>
-                    to become involved or monitor progress.
-                </h3>
-            </div>
-
-
         </div>
     </div>
+
+    <div class="row">
+        <div class="well" style="margin-top: 1em; margin-bottom: 1em;">
+            <h3>More to Come.. <a target="_blank" href="http://github.com/mcantrell/zuul">Visit the GitHub site</a>
+                to become involved or monitor progress.
+            </h3>
+        </div>
+    </div>
+
     <!--#include file="footer.shtml" -->
 </div>
 <script>
     $(function () {
+        $('#zuulFeaturesTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        $('#zuulFeaturesTab a:first').tab('show');
         $("#zuulCarousel").carousel();
         $("#zuulDownload").popover({trigger:'hover'});
         selectTab("zuul");
