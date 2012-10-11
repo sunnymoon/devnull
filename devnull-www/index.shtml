@@ -24,7 +24,7 @@
             </blockquote>
         </div>
     </div>
-    <div class="row">
+    <div class="row vertical-spaced">
         <div class="span10 offset1">
             <div id="zuulCarousel" class="carousel slide">
                 <!-- Carousel items -->
@@ -107,8 +107,8 @@
     <div class="row vertical-spaced">
         <div class="span10 offset1">
             <ul class="nav nav-tabs" id="zuulFeaturesTab">
-                <li class="active"><a href="#features">Features</a></li>
-                <li><a href="#roadmap">Road Map</a></li>
+                <li class="active"><a data-toggle="tab" href="#features">Features</a></li>
+                <li><a data-toggle="tab" href="#roadmap">Road Map</a></li>
             </ul>
 
             <div class="tab-content">
@@ -122,8 +122,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="well" style="margin-top: 1em; margin-bottom: 1em;">
+    <div class="row vertical-spaced">
+        <div class="well">
             <h3>More to Come.. <a target="_blank" href="http://github.com/mcantrell/zuul">Visit the GitHub site</a>
                 to become involved or monitor progress.
             </h3>
@@ -134,11 +134,6 @@
 </div>
 <script>
     $(function () {
-        $('#zuulFeaturesTab a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-        });
-        $('#zuulFeaturesTab a:first').tab('show');
         $("#zuulCarousel").carousel();
         $("#zuulDownload").popover({trigger:'hover'});
         selectTab("zuul");
