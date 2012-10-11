@@ -87,7 +87,7 @@
     <div class="row vertical-spaced">
         <div class="span12">
             <div class="btn-group" style="text-align: center;">
-                <a id="zuulDownload" class="btn btn-danger btn-large" title="Snapshot"
+                <a id="zuulDownload" class="btn btn-danger btn-large" title="Release Candidate"
                    data-content="This is a release candidate which means that development features
                    are finalized but it has not been widely evaluated. Please provide any feedback and
                    report any bugs you encounter at the Github site."
