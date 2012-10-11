@@ -320,53 +320,12 @@
             <artifactId>mockito-all</artifactId>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>ci</id>
-            <repositories>
-                <repository>
-                    <id>sonatype-snapshots</id>
-                    <name>Sonatype OSS Maven Repo (snapshots)</name>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                </repository>
-                <repository>
-                    <id>sonatype-releases</id>
-                    <name>Sonatype OSS Maven Repo (snapshots)</name>
-                    <url>https://oss.sonatype.org/content/repositories/releases/</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                </repository>
-            </repositories>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.4</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>none</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+
     <build>
         <pluginManagement>
             <plugins>
+
+                <!-- Enable groovy compilation -->
                 <plugin>
                     <groupId>org.codehaus.gmaven</groupId>
                     <artifactId>gmaven-plugin</artifactId>
@@ -402,6 +361,8 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!-- Default compiler down to 1.5 for the time being... considering moving to 1.6 soon -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -410,6 +371,8 @@
                         <target>1.5</target>
                     </configuration>
                 </plugin>
+
+                <!-- Attach sources for projects -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
@@ -424,6 +387,8 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!-- Help certain IDEs find the groovy source dir (gmaven doesn't appear to do this) -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
@@ -457,84 +422,109 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
-
-            <!--
-                These next two are a little yucky.. Sonatype requires javadocs be created in order
-                to synch to central repo. Since groovy doesn't produce javadocs, we'll trick it out
-                with groovydocs.
-
-                This isn't a great solution but I'll keep looking for a better one.
-             -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <id>groovydoc</id>
-                        <phase>install</phase>
-                        <goals>
-                            <!--suppress MavenModelInspection -->
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <taskdef name="groovydoc" classname="org.codehaus.groovy.ant.Groovydoc"
-                                         classpathref="maven.compile.classpath"/>
-                                <groovydoc destdir="${project.reporting.outputDirectory}/groovydoc"
-                                           sourcepath="${basedir}/src/main/groovy" use="true"
-                                           windowtitle="${project.name}" doctitle="${project.name}"/>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <!--suppress MavenModelInspection -->
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <classesDirectory>${project.reporting.outputDirectory}/groovydoc</classesDirectory>
-                            <classifier>javadoc</classifier>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <!--suppress MavenModelInspection -->
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <!--suppress MavenModelInspection -->
-                <version>2.5.1</version>
-            </plugin>
-        </plugins>
-    </reporting>
+    <profiles>
+        <profile>
+            <id>ci</id>
+            <repositories>
+                <repository>
+                    <id>sonatype-snapshots</id>
+                    <name>Sonatype OSS Maven Repo (snapshots)</name>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>sonatype-releases</id>
+                    <name>Sonatype OSS Maven Repo (snapshots)</name>
+                    <url>https://oss.sonatype.org/content/repositories/releases/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>sonatype</id>
+            <build>
+                <plugins>
+                    <!--
+                        Sonatype requires JavaDoc deployments. Gmaven does not do this so we'll have to run
+                        the groovydoc ant task and jar them up ourselves.
+                    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>groovydoc</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <!--suppress MavenModelInspection -->
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <taskdef name="groovydoc" classname="org.codehaus.groovy.ant.Groovydoc"
+                                                 classpathref="maven.compile.classpath"/>
+                                        <groovydoc destdir="${project.reporting.outputDirectory}/groovydoc"
+                                                   sourcepath="${basedir}/src/main/groovy" use="true"
+                                                   windowtitle="${project.name}" doctitle="${project.name}"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Jar the groovy docs to make them look like javadocs (see previous comment -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>2.4</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <!--suppress MavenModelInspection -->
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classesDirectory>${project.reporting.outputDirectory}/groovydoc</classesDirectory>
+                                    <classifier>javadoc</classifier>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Sign the artifacts for Sonatype central repo synch -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
