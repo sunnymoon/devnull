@@ -92,7 +92,7 @@
                    stable but it has not been widely tested. Please provide feedback/bugs at the github site."
                    href="https://s3.amazonaws.com/devnull.org/zuul-web-1.0-RC2-SNAPSHOT.war">
                     <i class="icon-download icon-white"></i>
-                    Download 1.0-RC1
+                    Download 1.0-SNAPSHOT
                 </a>
                 <a class="btn btn-primary btn-large" href="https://github.com/mcantrell/zuul" target="_blank">Source
                     Code &raquo;</a>
