@@ -1,3 +1,0 @@
-# External web libraries
-- (^|/)devnull-www/assets/ext/.*$
-- (^|/)devnull-web-archetype/src/main/resources/archetype-resources/src/main/webapp/assets/ext/.*$
