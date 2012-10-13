@@ -136,6 +136,7 @@
         $("#zuulCarousel").carousel();
         $("#zuulDownload").popover({trigger:'hover'});
         selectTab("zuul");
+        $("#zuulFeaturesTab a:first").tab('show');
     });
 </script>
 </body>
