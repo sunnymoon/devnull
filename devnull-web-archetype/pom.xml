@@ -4,7 +4,7 @@
 
 	<groupId>org.devnull</groupId>
 	<artifactId>devnull-web-archetype</artifactId>
-	<version>1.0-RC2-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
 
 	<name>DevNull: Web Archetype</name>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.devnull</groupId>
         <artifactId>devnull-parent</artifactId>
-        <version>1.0-RC2-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 	<build>
 	<extensions>
