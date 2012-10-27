@@ -5,10 +5,11 @@
     <artifactId>${artifactId}</artifactId>
     <packaging>war</packaging>
     <name>DevNull: Web Sample</name>
+    <version>${version}</version>
     <parent>
         <groupId>org.devnull</groupId>
         <artifactId>devnull-parent</artifactId>
-        <version>1.0-RC1-SNAPSHOT</version>
+        <version>${version}</version>
     </parent>
     <dependencies>
         <!-- Web -->
@@ -48,6 +49,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <version>${version}</version>
+
 
 </project>
