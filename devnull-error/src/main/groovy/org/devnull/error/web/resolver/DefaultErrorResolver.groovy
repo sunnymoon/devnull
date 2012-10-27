@@ -16,6 +16,8 @@ import static javax.servlet.http.HttpServletResponse.*
 @Slf4j
 class DefaultErrorResolver implements HandlerExceptionResolver {
 
+  static final String MODEL_ATTRIBUTE_ERROR_MESSAGE = "errorMessage"
+
   /**
    * Converts an exception to an appropriate HttpErrorMessage
    */
@@ -52,7 +54,7 @@ class DefaultErrorResolver implements HandlerExceptionResolver {
     def errorMessage = httpErrorMessageConverter.convert(ex, request)
     response.status = errorMessage.statusCode
     def view = statusToViewMappings[errorMessage.statusCode] ?: defaultView
-    return new ModelAndView(view, [errorMessage: errorMessage])
+    return new ModelAndView(view, [(MODEL_ATTRIBUTE_ERROR_MESSAGE): errorMessage])
   }
 
 }

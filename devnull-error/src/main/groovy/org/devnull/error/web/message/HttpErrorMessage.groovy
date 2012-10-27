@@ -43,8 +43,8 @@ class HttpErrorMessage {
   String user
 
   /**
-   * Http status code
+   * Http status code (default = 500)
    */
-  Integer statusCode
+  Integer statusCode = 500
 
 }
