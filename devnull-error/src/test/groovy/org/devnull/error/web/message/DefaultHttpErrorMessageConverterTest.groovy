@@ -64,7 +64,7 @@ class DefaultHttpErrorMessageConverterTest {
     def message = converter.convert(ex, mockRequest)
     assert message.messages == ex.globalErrors
     assert message.fieldMessages == ex.fieldErrors
-    assert message.statusCode == 406
+    assert message.statusCode == 422
     assertCommonValuesAreSet(ex, message)
   }
 

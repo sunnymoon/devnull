@@ -6,8 +6,10 @@ import org.devnull.error.ConflictingOperationException
 import org.devnull.error.ValidationException
 
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+
 import javax.validation.ConstraintViolationException
+
+import static javax.servlet.http.HttpServletResponse.*
 
 /**
  * Default implementation of HttpErrorMessageConverter which knows how to convert DevNullException instances
@@ -16,6 +18,11 @@ import javax.validation.ConstraintViolationException
 @Slf4j
 class DefaultHttpErrorMessageConverter implements HttpErrorMessageConverter {
 
+  public static Integer SC_UNPROCESSABLE_ENTITY = 422
+
+  /**
+   * If true, use the root cause of the exception for conversion instead of the parent
+   */
   Boolean useRootCause = true
 
   HttpErrorMessage convert(Throwable throwable, HttpServletRequest request) {
@@ -32,28 +39,25 @@ class DefaultHttpErrorMessageConverter implements HttpErrorMessageConverter {
   protected populate(Throwable throwable, HttpServletRequest request, HttpErrorMessage message) {
     log.warn("Unhandled error", throwable)
     message.messages = [throwable.message]
-    message.statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+    message.statusCode = SC_INTERNAL_SERVER_ERROR
   }
 
   protected populate(ValidationException ex, HttpServletRequest request, HttpErrorMessage message) {
     log.warn("Validation errors: {}", ex.toString())
     message.messages = ex.globalErrors
     message.fieldMessages = ex.fieldErrors
-    message.statusCode = HttpServletResponse.SC_NOT_ACCEPTABLE
+    message.statusCode = SC_UNPROCESSABLE_ENTITY
   }
 
   protected populate(ConflictingOperationException ex, HttpServletRequest request, HttpErrorMessage message) {
     log.warn("Conflicting operation: {}", ex.message)
-    message.statusCode = HttpServletResponse.SC_CONFLICT
+    message.statusCode = SC_CONFLICT
     message.messages = [ex.message]
   }
 
-  protected populate(ConstraintViolationException ex, HttpServletRequest request) {
-         log.warn("Constraint violation: {}", ex.message)
-         this.messages = ex.constraintViolations.collect { it.message }
-         this.statusCode = HttpServletResponse.SC_NOT_ACCEPTABLE
-         this.user = request.userPrincipal?.toString()
-         this.requestUri = request.requestURI
-         this.stackTrace = ExceptionUtils.getStackTrace(ex)
-     }
+  protected populate(ConstraintViolationException ex, HttpServletRequest request,  HttpErrorMessage message) {
+    log.warn("Constraint violation: {}", ex.message)
+    message.messages = ex.constraintViolations.collect { it.message }
+    message.statusCode = SC_UNPROCESSABLE_ENTITY
+  }
 }

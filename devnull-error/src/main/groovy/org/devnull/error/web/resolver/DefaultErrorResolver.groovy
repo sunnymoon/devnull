@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 import static javax.servlet.http.HttpServletResponse.*
-
+import static org.devnull.error.web.message.DefaultHttpErrorMessageConverter.*
 /**
  * Renders HttpErrorMessages as HTML to HTTP clients
  */
@@ -38,7 +38,7 @@ class DefaultErrorResolver implements HandlerExceptionResolver {
   Map<Integer, String> statusToViewMappings = [
           (SC_FORBIDDEN): "/error/denied",
           (SC_CONFLICT): "/error/conflict",
-          (SC_NOT_ACCEPTABLE): "/error/invalid",
+          (SC_UNPROCESSABLE_ENTITY): "/error/invalid",
           (SC_NOT_FOUND): "/error/notFound",
   ]
 
