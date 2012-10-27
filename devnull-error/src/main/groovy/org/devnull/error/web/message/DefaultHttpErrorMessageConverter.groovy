@@ -52,7 +52,7 @@ class DefaultHttpErrorMessageConverter implements HttpErrorMessageConverter {
   protected populate(ValidationException ex, HttpServletRequest request, HttpErrorMessage message) {
     //noinspection GroovyAssignabilityCheck
     message.messages = resolveMessages(ex.errors.globalErrors, request)
-    ex.errors.fieldErrors.groupBy { it.field }.each { fieldName, errors ->
+    ex.errors.fieldErrors?.groupBy { it.field }?.each { fieldName, errors ->
       //noinspection GroovyAssignabilityCheck
       message.fieldMessages[fieldName] = resolveMessages(errors, request)
     }
@@ -71,7 +71,7 @@ class DefaultHttpErrorMessageConverter implements HttpErrorMessageConverter {
 
   List<String> resolveMessages(List<MessageSourceResolvable> errors, HttpServletRequest request) {
     def locale = RequestContextUtils.getLocale(request)
-    return errors.collect { MessageSourceResolvable e ->
+    return errors?.collect { MessageSourceResolvable e ->
       messageSource?.getMessage(e, locale) ?: e.defaultMessage
     }
   }
