@@ -73,9 +73,9 @@ class DelegatingConverterTest {
     assert message.messages == ["Conflicting Operation", coe.message]
   }
 
-  @Test
-  void shouldReturnNullWhenNoMatchingConverterIsFound() {
+  @Test(expected=IllegalArgumentException)
+  void shouldReThrowErrorWhenNoMatchingConverterIsFound() {
     converter.converters = [new ConflictingOperationConverter()]
-    assert !converter.convert(new IllegalArgumentException("test 1"), new MockHttpServletRequest())
+    converter.convert(new IllegalArgumentException("test 1"), new MockHttpServletRequest())
   }
 }
