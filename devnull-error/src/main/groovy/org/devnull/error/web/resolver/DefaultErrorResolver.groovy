@@ -7,9 +7,13 @@ import org.springframework.web.servlet.ModelAndView
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import org.devnull.error.web.message.ErrorCodes
 
-import static javax.servlet.http.HttpServletResponse.*
-import static org.devnull.error.web.message.DefaultHttpErrorMessageConverter.*
+import static org.devnull.error.web.message.ErrorCodes.CLIENT_ERROR_NOT_AUTHORIZED
+import static org.devnull.error.web.message.ErrorCodes.CLIENT_ERROR_CONFLICTING_OPERATION
+import static org.devnull.error.web.message.ErrorCodes.CLIENT_ERROR_INVALID_ENTITY
+import static org.devnull.error.web.message.ErrorCodes.CLIENT_ERROR_NOT_FOUND
+
 /**
  * Renders HttpErrorMessages as HTML to HTTP clients
  */
@@ -36,10 +40,10 @@ class DefaultErrorResolver implements HandlerExceptionResolver {
    * </ul>
    */
   Map<Integer, String> statusToViewMappings = [
-          (SC_FORBIDDEN): "/error/denied",
-          (SC_CONFLICT): "/error/conflict",
-          (SC_UNPROCESSABLE_ENTITY): "/error/invalid",
-          (SC_NOT_FOUND): "/error/notFound",
+          (CLIENT_ERROR_NOT_AUTHORIZED): "/error/denied",
+          (CLIENT_ERROR_CONFLICTING_OPERATION): "/error/conflict",
+          (CLIENT_ERROR_INVALID_ENTITY): "/error/invalid",
+          (CLIENT_ERROR_NOT_FOUND): "/error/notFound",
   ]
 
   /**
