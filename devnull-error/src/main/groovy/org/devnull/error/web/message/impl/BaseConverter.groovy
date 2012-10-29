@@ -22,6 +22,12 @@ abstract class BaseConverter<T extends Throwable> implements HttpErrorMessageCon
     message.user = request.userPrincipal?.toString()
     message.requestUri = request.requestURI
     populate(error, request, message)
+    if (message.isClientError()) {
+      log.warn("Client error: {}", message)
+    }
+    else {
+      log.error("Server error: {}", message)
+    }
     return message
   }
 
