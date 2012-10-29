@@ -47,4 +47,12 @@ class HttpErrorMessage {
    */
   Integer statusCode = 500
 
+  /**
+   * Determines if the error produces is a client or server related error
+   * @return
+   */
+  public Boolean isClientError() {
+    // TODO this is lazy.. clean it up
+    return statusCode < 500
+  }
 }
