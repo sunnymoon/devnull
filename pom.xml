@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.devnull</groupId>
     <artifactId>devnull-parent</artifactId>
@@ -36,7 +37,7 @@
         <module>devnull-orm</module>
         <module>devnull-security</module>
         <module>devnull-web-archetype</module>
-  </modules>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <groovy.version>1.8.8</groovy.version>
@@ -128,6 +129,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aspects</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
@@ -267,6 +273,12 @@
                 <version>1.9.8</version>
             </dependency>
 
+            <!-- Date Util -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>1.6</version>
+            </dependency>
 
             <!-- Test -->
             <dependency>
@@ -481,8 +493,11 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <taskdef name="groovydoc" classname="org.codehaus.groovy.ant.Groovydoc" classpathref="maven.compile.classpath"/>
-                                        <groovydoc destdir="${project.reporting.outputDirectory}/groovydoc" sourcepath="${basedir}/src/main/groovy" use="true" windowtitle="${project.name}" doctitle="${project.name}"/>
+                                        <taskdef name="groovydoc" classname="org.codehaus.groovy.ant.Groovydoc"
+                                                 classpathref="maven.compile.classpath"/>
+                                        <groovydoc destdir="${project.reporting.outputDirectory}/groovydoc"
+                                                   sourcepath="${basedir}/src/main/groovy" use="true"
+                                                   windowtitle="${project.name}" doctitle="${project.name}"/>
                                     </target>
                                 </configuration>
                             </execution>
