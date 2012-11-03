@@ -45,6 +45,7 @@
         <spring.version>3.1.2.RELEASE</spring.version>
         <junit.version>4.10</junit.version>
         <log4j.version>1.2.14</log4j.version>
+        <hibernate.version>4.1.8.Final</hibernate.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -245,12 +246,17 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
-                <version>4.1.7.Final</version>
+                <version>${hibernate.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-ehcache</artifactId>
-                <version>4.1.7.Final</version>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-envers</artifactId>
+                <version>${hibernate.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
