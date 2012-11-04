@@ -1,16 +1,16 @@
 package org.devnull.security.model
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 import org.springframework.data.jpa.domain.AbstractAuditable
 
 import javax.persistence.Entity
-import groovy.transform.ToString
 
 @Entity
 @EqualsAndHashCode
-@ToString(includeNames=true)
+@ToString(includeNames = true)
 class AuditedWidget extends AbstractAuditable<User, Integer> {
 
-  String name
+    String name
 
 }

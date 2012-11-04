@@ -27,13 +27,6 @@ class SpringSecurityUserLookupStrategyTest {
   }
 
   @Test
-  void shouldUseSpringUserAsAuditor() {
-    def user = new User(id: 1)
-    currentUser = user
-    assert strategy.currentAuditor == user
-  }
-
-  @Test
   void shouldReAuthenticateUserWithSpringAuthenticationManager() {
     def authentication = mock(Authentication)
     SecurityContextHolder.context?.authentication = authentication
