@@ -15,7 +15,7 @@ class AuditServiceImpl implements AuditService {
     @Autowired
     EntityManagerFactory entityManagerFactory
 
-    List<AuditRevision<?>> findAllByEntity(Class<?> entity) {
+    public <T> List<AuditRevision<T>> findAllByEntity(Class<T> entity) {
         def manager = entityManagerFactory.createEntityManager()
         def audits = []
         try {
@@ -23,11 +23,8 @@ class AuditServiceImpl implements AuditService {
             def query = reader.createQuery().forRevisionsOfEntity(entity, false, true)
             audits = query.resultList.collect {
                 //noinspection GroovyAssignabilityCheck
-                new AuditRevision<?>(entity:it[0], revision: it[1], type: it[2])
+                new AuditRevision<T>(entity:it[0], revision: it[1], type: it[2])
             }
-            //            audits = reader.getRevisions(entity, id).collect { rev ->
-            //                reader.find(entity, id, rev)
-            //            }
         }
         finally {
             manager.close()
