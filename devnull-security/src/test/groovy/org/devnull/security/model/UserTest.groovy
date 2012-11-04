@@ -49,4 +49,10 @@ public class UserTest {
         assert user.roles.size() == 4
         assert user.roles.contains(newRole)
     }
+
+    @Test
+    void shouldGenerateEmailDigest() {
+        def user = new User(email: "test@devnull.org")
+        assert user.emailHash == "9b345d5ef6f1397f6ae1e28a5794d4c1"
+    }
 }

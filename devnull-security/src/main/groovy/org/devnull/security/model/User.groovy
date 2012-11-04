@@ -21,6 +21,9 @@ import javax.validation.constraints.Size
 import javax.validation.constraints.NotNull
 
 import javax.persistence.UniqueConstraint
+import org.apache.commons.lang.StringUtils
+import java.security.MessageDigest
+import org.apache.commons.codec.digest.DigestUtils
 
 @Entity
 @Table(name = "SecurityUser", uniqueConstraints = [
@@ -116,6 +119,15 @@ class User implements Serializable, UserDetails {
         if (!roles.contains(role)) {
             roles.add(role)
         }
+    }
+
+    /**
+     * MD5 Hash the email which is can be used for Gravatar profile requests.
+     * @return
+     */
+    String getEmailHash() {
+        if (!email) return ""
+        return DigestUtils.md5Hex(email.toLowerCase().trim())
     }
 
 }
