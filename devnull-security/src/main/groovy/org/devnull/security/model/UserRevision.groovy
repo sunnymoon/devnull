@@ -25,10 +25,7 @@ class UserRevision {
     Integer id
 
     @RevisionTimestamp
-    Long timestamp
+    Date modifiedDate
 
-    /**
-     Loosely coupled to user in order to preserve history in case the user is deleted
-     */
-    String userName
+    String modifiedBy
 }

@@ -12,6 +12,6 @@ class SpringSecurityRevisionListener implements RevisionListener {
     void newRevision(Object revisionEntity) {
         def userRevision = revisionEntity as UserRevision
         def user = SecurityContextHolder.context?.authentication?.principal as User
-        userRevision.userName = user.userName
+        userRevision.modifiedBy = user.userName
     }
 }

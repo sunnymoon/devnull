@@ -46,15 +46,15 @@ class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
 
         assert audits[0].type == RevisionType.ADD
         assert audits[0].entity.name == "another widget"
-        assert audits[0].revision.userName == auditor.userName
+        assert audits[0].revision.modifiedBy == auditor.userName
 
         assert audits[1].type == RevisionType.MOD
         assert audits[1].entity.name == "yet another widget"
-        assert audits[1].revision.userName == auditor.userName
+        assert audits[1].revision.modifiedBy == auditor.userName
 
         assert audits[2].type == RevisionType.DEL
         assert audits[2].entity.name == null
-        assert audits[2].revision.userName == auditor.userName
+        assert audits[2].revision.modifiedBy == auditor.userName
     }
 
 

@@ -21,6 +21,6 @@ class SpringSecurityRevisionListenerTest {
         def expected = new User(userName: "testUser")
         SecurityContextHolder.context?.authentication = new TestingAuthenticationToken(expected, "*********")
         listener.newRevision(revision)
-        assert revision.userName == "testUser"
+        assert revision.modifiedBy == "testUser"
     }
 }
