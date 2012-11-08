@@ -3,7 +3,9 @@ package org.devnull.security.audit
 import org.hibernate.envers.query.AuditEntity
 import org.hibernate.envers.query.criteria.AuditCriterion
 import org.hibernate.envers.query.order.AuditOrder
+import groovy.transform.EqualsAndHashCode
 
+@EqualsAndHashCode
 class AuditPagination {
     Integer max = 100
     Integer offset = 0
