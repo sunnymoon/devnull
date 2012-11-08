@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-import javax.persistence.EntityManagerFactory
 import javax.persistence.EntityManager
+import javax.persistence.EntityManagerFactory
+import org.hibernate.envers.query.AuditEntity
 
 @Service("auditService")
 @Transactional(readOnly = true)
@@ -26,12 +27,17 @@ class AuditServiceImpl implements AuditService {
     }
 
     def <T> List<AuditRevision<T>> findAllByEntity(Class<T> entity, AuditPagination pagination) {
+        return findAllByEntity(entity, pagination, null)
+    }
+
+    def <T> List<AuditRevision<T>> findAllByEntity(Class<T> entity, AuditPagination pagination, Closure queryEditor) {
         return doWithEntityManager { EntityManager manager ->
             def reader = AuditReaderFactory.get(manager)
             def query = reader.createQuery().forRevisionsOfEntity(entity, false, true)
                     .addOrder(pagination.orderBy)
                     .setMaxResults(pagination.max)
                     .setFirstResult(pagination.offset)
+            if (queryEditor) { queryEditor(query) }
             query.resultList.collect {
                 //noinspection GroovyAssignabilityCheck
                 new AuditRevision<T>(entity: it[0], revision: it[1], type: it[2])
