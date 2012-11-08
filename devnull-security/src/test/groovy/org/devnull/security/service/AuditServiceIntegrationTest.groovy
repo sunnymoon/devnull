@@ -44,8 +44,8 @@ class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
         def audits = auditService.findAllByEntity(AuditedWidget)
         assert audits.size() == 3
 
-        assert audits[0].type == RevisionType.ADD
-        assert audits[0].entity.name == "another widget"
+        assert audits[0].type == RevisionType.DEL
+        assert audits[0].entity.name == null
         assert audits[0].revision.modifiedBy == auditor.userName
         assert audits[0].revision.modifiedDate.clearTime() == new Date().clearTime()
 
@@ -54,10 +54,11 @@ class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
         assert audits[1].revision.modifiedBy == auditor.userName
         assert audits[1].revision.modifiedDate.clearTime() == new Date().clearTime()
 
-        assert audits[2].type == RevisionType.DEL
-        assert audits[2].entity.name == null
+        assert audits[2].type == RevisionType.ADD
+        assert audits[2].entity.name == "another widget"
         assert audits[2].revision.modifiedBy == auditor.userName
         assert audits[2].revision.modifiedDate.clearTime() == new Date().clearTime()
+
     }
 
 
