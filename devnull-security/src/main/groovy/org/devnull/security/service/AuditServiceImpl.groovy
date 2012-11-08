@@ -48,7 +48,7 @@ class AuditServiceImpl implements AuditService {
     Map<String, User> collectUsersFromRevisions(List<AuditRevision> audits) {
         def users = [:]
         audits.collect { it.revision.modifiedBy }.unique().collect {
-            users[it] = securityService.findByUserName(it)
+            users[it] = securityService.findByUserName(it) ?: new User(userName: it, firstName: "Deleted", lastName: "User")
         }
         return users
     }

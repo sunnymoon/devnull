@@ -28,13 +28,18 @@ class AuditServiceImplTest {
                 new AuditRevision(revision: new UserRevision(modifiedBy: "userB")),
                 new AuditRevision(revision: new UserRevision(modifiedBy: "userA")),
                 new AuditRevision(revision: new UserRevision(modifiedBy: "userB")),
+                new AuditRevision(revision: new UserRevision(modifiedBy: "unknown")),
         ]
         def userA = new User(userName: "userA")
         def userB = new User(userName: "userB")
         when(service.securityService.findByUserName("userA")).thenReturn(userA)
         when(service.securityService.findByUserName("userB")).thenReturn(userB)
         def users = service.collectUsersFromRevisions(audits)
-        assert users == ["userA": userA, "userB": userB]
+        assert users.userA == userA
+        assert users.userB == userB
+        assert users.unknown.firstName == "Deleted"
+        assert users.unknown.lastName == "User"
+        assert users.unknown.userName== "unknown"
     }
 
 
