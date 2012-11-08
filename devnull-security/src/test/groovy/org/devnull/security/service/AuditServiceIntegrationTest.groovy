@@ -1,18 +1,17 @@
 package org.devnull.security.service
 
 import org.devnull.security.BaseSecurityIntegrationTest
+import org.devnull.security.audit.AuditPagination
 import org.devnull.security.dao.AuditedWidgetDao
 import org.devnull.security.dao.UserDao
 import org.devnull.security.model.AuditedWidget
 import org.devnull.security.model.User
 import org.hibernate.envers.RevisionType
+import org.hibernate.envers.query.AuditEntity
 import org.junit.Before
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.annotation.NotTransactional
-import org.devnull.security.audit.AuditPagination
-import org.hibernate.envers.query.AuditEntity
-import org.junit.After
 
 class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
     @Autowired
@@ -33,7 +32,8 @@ class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
     }
 
     /**
-     * Test must not be transactional in order for listeners to fire.
+     * Test must not be transactional in order for listeners to fire. This test does a lot
+     * due to the non-transactional nature of the testing :(
      */
     @Test
     @NotTransactional
@@ -62,13 +62,20 @@ class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
         assert audits[2].revision.modifiedBy == auditor.userName
         assert audits[2].revision.modifiedDate.clearTime() == new Date().clearTime()
 
-
         // reverse directions
-        audits = auditService.findAllByEntity(AuditedWidget, new AuditPagination(orderBy:  AuditEntity.revisionNumber().asc()))
+        audits = auditService.findAllByEntity(AuditedWidget, new AuditPagination(orderBy: AuditEntity.revisionNumber().asc()))
         assert audits.size() == 3
         assert audits[0].type == RevisionType.ADD
         assert audits[1].type == RevisionType.MOD
         assert audits[2].type == RevisionType.DEL
+
+        // apply filters
+        audits = auditService.findAllByEntity(AuditedWidget, new AuditPagination(filter: [AuditEntity.property("name").eq("yet another widget")]))
+        assert audits.size() == 1
+        assert audits[0].type == RevisionType.MOD
+        assert audits[0].entity.name == "yet another widget"
+        assert audits[0].revision.modifiedBy == auditor.userName
+        assert audits[0].revision.modifiedDate.clearTime() == new Date().clearTime()
 
     }
 

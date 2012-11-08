@@ -37,7 +37,7 @@ class AuditServiceImpl implements AuditService {
                     .addOrder(pagination.orderBy)
                     .setMaxResults(pagination.max)
                     .setFirstResult(pagination.offset)
-            if (queryEditor) { queryEditor(query) }
+            pagination.filter.each {  query.add(it)  }
             query.resultList.collect {
                 //noinspection GroovyAssignabilityCheck
                 new AuditRevision<T>(entity: it[0], revision: it[1], type: it[2])
