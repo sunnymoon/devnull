@@ -10,6 +10,9 @@ import org.junit.Before
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.annotation.NotTransactional
+import org.devnull.security.audit.AuditPagination
+import org.hibernate.envers.query.AuditEntity
+import org.junit.After
 
 class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
     @Autowired
@@ -58,6 +61,14 @@ class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
         assert audits[2].entity.name == "another widget"
         assert audits[2].revision.modifiedBy == auditor.userName
         assert audits[2].revision.modifiedDate.clearTime() == new Date().clearTime()
+
+
+        // reverse directions
+        audits = auditService.findAllByEntity(AuditedWidget, new AuditPagination(orderBy:  AuditEntity.revisionNumber().asc()))
+        assert audits.size() == 3
+        assert audits[0].type == RevisionType.ADD
+        assert audits[1].type == RevisionType.MOD
+        assert audits[2].type == RevisionType.DEL
 
     }
 

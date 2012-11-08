@@ -1,5 +1,6 @@
 package org.devnull.security.service
 
+import org.devnull.security.audit.AuditPagination
 import org.devnull.security.audit.AuditRevision
 import org.devnull.security.model.User
 import org.hibernate.envers.AuditReaderFactory
@@ -8,9 +9,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 import javax.persistence.EntityManagerFactory
-import org.hibernate.envers.query.order.AuditOrder
-import org.hibernate.envers.query.AuditEntity
-import org.devnull.security.audit.AuditPagination
+import javax.persistence.EntityManager
 
 @Service("auditService")
 @Transactional(readOnly = true)
@@ -26,24 +25,18 @@ class AuditServiceImpl implements AuditService {
         return findAllByEntity(entity, new AuditPagination())
     }
 
-    def <T> List<AuditRevision<T>> findAllByEntity(Class<T> entity,  AuditPagination pagination) {
-        def manager = entityManagerFactory.createEntityManager()
-        def audits = []
-        try {
+    def <T> List<AuditRevision<T>> findAllByEntity(Class<T> entity, AuditPagination pagination) {
+        return doWithEntityManager { EntityManager manager ->
             def reader = AuditReaderFactory.get(manager)
             def query = reader.createQuery().forRevisionsOfEntity(entity, false, true)
                     .addOrder(pagination.orderBy)
                     .setMaxResults(pagination.max)
                     .setFirstResult(pagination.offset)
-            audits = query.resultList.collect {
+            query.resultList.collect {
                 //noinspection GroovyAssignabilityCheck
                 new AuditRevision<T>(entity: it[0], revision: it[1], type: it[2])
             }
         }
-        finally {
-            manager.close()
-        }
-        return audits
     }
 
     Map<String, User> collectUsersFromRevisions(List<AuditRevision> audits) {
@@ -52,5 +45,15 @@ class AuditServiceImpl implements AuditService {
             users[it] = securityService.findByUserName(it)
         }
         return users
+    }
+
+    def doWithEntityManager = { closure ->
+        def manager = entityManagerFactory.createEntityManager()
+        try {
+            return closure(manager)
+        }
+        finally {
+            manager.close()
+        }
     }
 }
