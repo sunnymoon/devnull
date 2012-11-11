@@ -20,7 +20,7 @@ interface Pagination<T> extends List<T> {
     /**
      * Key value pairs used to limit reset set.
      */
-    Map getFilter()
+    Map<String, Serializable> getFilter()
 
     /**
      * Total results available regardless of current results size.
@@ -40,14 +40,8 @@ interface Pagination<T> extends List<T> {
     Integer getMax()
 
     /**
-     * The field name to sort on
+     * The field names to sort on
      */
-    String getSort()
+    List<Sort> getSorts()
 
-    /**
-     * The direction of the sort.
-     *
-     * Default= {@value}
-     */
-    String order = ORDER_ASC
 }

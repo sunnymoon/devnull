@@ -8,54 +8,39 @@ import groovy.transform.ToString
  */
 
 @EqualsAndHashCode
-@ToString(includeNames=true)
-class SimplePagination<T> implements Pagination<T> {
+@ToString(includeNames = true)
+class SimplePagination<T extends Serializable> implements Pagination<T>, Serializable {
+
+    static final long serialVersionUID = 1L;
 
     /**
-     * Contains requested response objects. Delegate for List.
-     *
      * Default = {@value}
      */
     @Delegate
     List<T> results = []
 
     /**
-     * Key value pairs used to limit reset set.
-     *
      * Default = {@value}
      */
-    Map filter = [:]
+    Map<String, Serializable> filter = [:]
 
     /**
-     * Total results available regardless of current results size.
-     *
      * Default = {@value}
      */
     Integer total = 0
 
     /**
-     * Current page
-     *
      * Default = {@value}
      */
     Integer page = 0
 
     /**
-     * The max number of responses that can be retained in this.results.
-     *
      * Default = {@value}
      */
     Integer max = 25
 
     /**
-     * The field name to sort on
+     * Default = {@value}
      */
-    String sort
-
-    /**
-     * The direction of the sort.
-     *
-     * Default= {@value}
-     */
-    String order = ORDER_ASC
+    List<Sort> sorts = []
 }

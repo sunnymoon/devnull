@@ -36,32 +36,35 @@ class HttpRequestPaginationTest {
 
 
     @Test
-    void shouldFindSortParamFromRequestIfPresent() {
+    void shouldFindSortParamsFromRequestIfPresent() {
         def request = new MockHttpServletRequest()
-        request.setParameter(HttpRequestPagination.PARAM_SORT, "fieldA")
+        request.setParameter(HttpRequestPagination.PARAM_SORT, ["firstName", "age"] as String[])
+        request.setParameter(HttpRequestPagination.PARAM_DIRECTION, "ASC")
         def pagination = new HttpRequestPagination(request)
-        assert pagination.sort == "fieldA"
+        assert pagination.sorts.size() == 2
+        assert pagination.sorts[0].field == "firstName"
+        assert pagination.sorts[0].direction == "ASC"
+        assert pagination.sorts[1].field == "age"
+        assert pagination.sorts[1].direction == "ASC"
     }
 
     @Test
-    void shouldUseDefaultSortParamIfNotPresent() {
+    void shouldUseDefaultSortParamsIfNotPresent() {
         def pagination = new HttpRequestPagination(new MockHttpServletRequest())
-        assert pagination.sort == new SimplePagination().sort
+        assert pagination.sorts == new SimplePagination().sorts
     }
 
-
     @Test
-    void shouldFindOrderParamFromRequestIfPresent() {
+    void shouldFindScopedSortDirections() {
         def request = new MockHttpServletRequest()
-        request.setParameter(HttpRequestPagination.PARAM_ORDER, Pagination.ORDER_ASC)
+        request.setParameter(HttpRequestPagination.PARAM_SORT, ["firstName", "age"] as String[])
+        request.setParameter(HttpRequestPagination.PARAM_DIRECTION, "ASC")
+        request.setParameter("age.${HttpRequestPagination.PARAM_DIRECTION}", "DESC")
         def pagination = new HttpRequestPagination(request)
-        assert pagination.order == Pagination.ORDER_ASC
+        assert pagination.sorts.size() == 2
+        assert pagination.sorts[0].field == "firstName"
+        assert pagination.sorts[0].direction == "ASC"
+        assert pagination.sorts[1].field == "age"
+        assert pagination.sorts[1].direction == "DESC"
     }
-
-    @Test
-    void shouldUseDefaultOrderParamIfNotPresent() {
-        def pagination = new HttpRequestPagination(new MockHttpServletRequest())
-        assert pagination.order == new SimplePagination().order
-    }
-
 }
