@@ -1,13 +1,13 @@
 package org.devnull.orm.util
 
-import org.devnull.util.Pagination
+import org.devnull.util.pagination.SimplePagination
 import org.junit.Test
 import org.springframework.data.domain.Pageable
 
 class JpaPaginationAdapterTest {
     @Test
     void shouldConvertFromPaginationToPageable() {
-        def pagination = new Pagination(
+        def pagination = new SimplePagination(
                 sort: "foo", page: 3, max: 10
         )
         def adapter = new JpaPaginationAdapter(pagination)

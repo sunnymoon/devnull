@@ -1,17 +1,15 @@
-package org.devnull.util
+package org.devnull.util.pagination
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
-@EqualsAndHashCode
-@ToString(includeNames=true)
 /**
  * Utility class used for pagination of result sets
  */
-class Pagination<T> implements List<T> {
 
-    static final String ORDER_ASC = "ASC"
-    static final String ORDER_DESC = "DESC"
+@EqualsAndHashCode
+@ToString(includeNames=true)
+class SimplePagination<T> implements Pagination<T> {
 
     /**
      * Contains requested response objects. Delegate for List.

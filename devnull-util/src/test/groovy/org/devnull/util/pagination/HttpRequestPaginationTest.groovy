@@ -1,4 +1,4 @@
-package org.devnull.util
+package org.devnull.util.pagination
 
 import org.junit.Test
 import org.springframework.mock.web.MockHttpServletRequest
@@ -16,7 +16,7 @@ class HttpRequestPaginationTest {
     @Test
     void shouldUseDefaultMaxParamIfNotPresent() {
         def pagination = new HttpRequestPagination(new MockHttpServletRequest())
-        assert pagination.max == new Pagination().max
+        assert pagination.max == new SimplePagination().max
     }
 
 
@@ -31,7 +31,7 @@ class HttpRequestPaginationTest {
     @Test
     void shouldUseDefaultOffsetParamIfNotPresent() {
         def pagination = new HttpRequestPagination(new MockHttpServletRequest())
-        assert pagination.page == new Pagination().page
+        assert pagination.page == new SimplePagination().page
     }
 
 
@@ -46,7 +46,7 @@ class HttpRequestPaginationTest {
     @Test
     void shouldUseDefaultSortParamIfNotPresent() {
         def pagination = new HttpRequestPagination(new MockHttpServletRequest())
-        assert pagination.sort == new Pagination().sort
+        assert pagination.sort == new SimplePagination().sort
     }
 
 
@@ -61,7 +61,7 @@ class HttpRequestPaginationTest {
     @Test
     void shouldUseDefaultOrderParamIfNotPresent() {
         def pagination = new HttpRequestPagination(new MockHttpServletRequest())
-        assert pagination.order == new Pagination().order
+        assert pagination.order == new SimplePagination().order
     }
 
 }
