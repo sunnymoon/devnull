@@ -23,15 +23,15 @@ class HttpRequestPaginationTest {
     @Test
     void shouldFindOffsetParamFromRequestIfPresent() {
         def request = new MockHttpServletRequest()
-        request.setParameter(HttpRequestPagination.PARAM_OFFSET, "2")
+        request.setParameter(HttpRequestPagination.PARAM_PAGE, "2")
         def pagination = new HttpRequestPagination(request)
-        assert pagination.offset == 2
+        assert pagination.page == 2
     }
 
     @Test
     void shouldUseDefaultOffsetParamIfNotPresent() {
         def pagination = new HttpRequestPagination(new MockHttpServletRequest())
-        assert pagination.offset == new Pagination().offset
+        assert pagination.page == new Pagination().page
     }
 
 

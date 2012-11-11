@@ -36,11 +36,11 @@ class Pagination<T> implements List<T> {
     Integer total = 0
 
     /**
-     * Current page or offset within the total results.
+     * Current page
      *
      * Default = {@value}
      */
-    Integer offset = 0
+    Integer page = 0
 
     /**
      * The max number of responses that can be retained in this.results.
