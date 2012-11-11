@@ -17,11 +17,13 @@ class JpaPaginationAdapter<T> implements Pageable {
 
     JpaPaginationAdapter(Pagination<T> pagination) {
         this.pagination = pagination
+        def orders = pagination.sorts.collect {
+            new Sort.Order(Sort.Direction.fromString(it.direction), it.field)
+        }
         this.pageRequest = new PageRequest(
                 pagination.page,
                 pagination.max,
-                Sort.Direction.fromString(pagination.order),
-                pagination.sort
+                new Sort(orders)
         )
     }
 }
