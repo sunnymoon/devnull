@@ -64,10 +64,4 @@ class HttpRequestPaginationTest {
         assert pagination.order == new Pagination().order
     }
 
-    @Test(expected = IllegalArgumentException)
-    void shouldErrorOnInvalidOrderValue() {
-        def request = new MockHttpServletRequest()
-        request.setParameter(HttpRequestPagination.PARAM_ORDER, "invalid")
-        new HttpRequestPagination(request)
-    }
 }

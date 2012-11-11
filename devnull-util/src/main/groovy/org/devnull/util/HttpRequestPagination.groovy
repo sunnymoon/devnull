@@ -2,6 +2,9 @@ package org.devnull.util
 
 import javax.servlet.http.HttpServletRequest
 
+/**
+ * Helps bind http request parameters to pagination fields. See the PARAM constants.
+ */
 class HttpRequestPagination<T> extends Pagination<T> {
     static final String PARAM_MAX = "max"
     static final String PARAM_OFFSET = "offset"
@@ -18,9 +21,5 @@ class HttpRequestPagination<T> extends Pagination<T> {
         if (offset) this.offset = offset.toInteger()
         if (sort) this.sort = sort
         if (order) this.order = order
-
-        if (this.order && this.order != Pagination.ORDER_ASC && this.order != Pagination.ORDER_DESC) {
-            throw new IllegalArgumentException("Invalid order parameter ${this.order}. Must be ${Pagination.ORDER_ASC} or ${Pagination.ORDER_DESC}")
-        }
     }
 }
