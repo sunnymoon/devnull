@@ -23,4 +23,11 @@ class JpaPaginationAdapterTest {
         assert adapter.pageSize == 10
         assert adapter.offset == 30
     }
+
+    @Test
+    void shouldNotBuildSortIfCriteriaIsNotAvailable() {
+        def pagination = new SimplePagination(page: 3, max: 10)
+        def adapter = new JpaPaginationAdapter(pagination)
+        assert !adapter.sort
+    }
 }

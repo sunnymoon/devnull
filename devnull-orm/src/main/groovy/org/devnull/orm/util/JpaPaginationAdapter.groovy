@@ -1,8 +1,8 @@
 package org.devnull.orm.util
 
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.PageRequest
 import org.devnull.util.pagination.Pagination
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 
 /**
@@ -20,10 +20,7 @@ class JpaPaginationAdapter<T> implements Pageable {
         def orders = pagination.sorts.collect {
             new Sort.Order(Sort.Direction.fromString(it.direction), it.field)
         }
-        this.pageRequest = new PageRequest(
-                pagination.page,
-                pagination.max,
-                new Sort(orders)
-        )
+        def sort = orders.size() > 0 ? new Sort(orders) : null
+        this.pageRequest = new PageRequest(pagination.page, pagination.max, sort)
     }
 }
