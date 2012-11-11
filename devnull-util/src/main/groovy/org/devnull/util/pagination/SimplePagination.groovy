@@ -27,7 +27,7 @@ class SimplePagination<T extends Serializable> implements Pagination<T>, Seriali
     /**
      * Default = {@value}
      */
-    Integer total = 0
+    Long total = 0
 
     /**
      * Default = {@value}
