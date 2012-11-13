@@ -42,6 +42,7 @@ class JsonErrorResolverTest {
         def mv = resolver.resolveException(mockRequest, mockResponse, null, exception)
         assert mv.isEmpty()
         assert mockResponse.status == message.statusCode
+        assert mockResponse.contentType == "application/json"
         def json = new JsonSlurper().parseText(mockResponse.contentAsString)
         assert json.fieldMessages["fieldA"] == ["fieldA message 1", "fieldA message 2"]
         assert json.fieldMessages["fieldB"] == ["fieldB message 1"]

@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import org.springframework.http.MediaType
 
 /**
  * Renders HttpErrorMessages as JSON to HTTP Clients
@@ -18,6 +19,7 @@ class JsonErrorResolver implements HandlerExceptionResolver {
     ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         def error = httpErrorMessageConverter.convert(ex, request)
         response.status = error.statusCode
+        response.contentType = MediaType.APPLICATION_JSON_VALUE
         def writer = new OutputStreamWriter(response.outputStream)
         def json = new JsonBuilder()
         json {
