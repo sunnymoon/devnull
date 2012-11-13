@@ -18,7 +18,7 @@ abstract class BaseConverter<T extends Throwable> implements HttpErrorMessageCon
     def message = new HttpErrorMessage()
     message.messages = [error.message]
     message.statusCode = statusCode
-    message.stackTrace = ExceptionUtils.getStackTrace(error)
+
     message.user = request.userPrincipal?.toString()
     message.requestUri = request.requestURI
     populate(error, request, message)
@@ -26,6 +26,7 @@ abstract class BaseConverter<T extends Throwable> implements HttpErrorMessageCon
       log.warn("Client error: {}", message)
     }
     else {
+      message.stackTrace = ExceptionUtils.getStackTrace(error)
       log.error("Server error: {}", message)
     }
     return message

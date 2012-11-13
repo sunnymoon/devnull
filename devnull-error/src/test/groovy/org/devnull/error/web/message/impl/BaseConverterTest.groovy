@@ -23,7 +23,12 @@ abstract class BaseConverterTest {
   void assertCommonValuesAreSet(Throwable t, HttpErrorMessage message) {
     assert message.requestUri == "/test"
     assert message.user == "testUser"
-    assert message.stackTrace == ExceptionUtils.getStackTrace(t)
+    if (message.isClientError()) {
+      assert !message.stackTrace
+    }
+    else {
+      assert message.stackTrace == ExceptionUtils.getStackTrace(t)
+    }
     assert message.date
     assert message.statusCode == converter.statusCode
   }
