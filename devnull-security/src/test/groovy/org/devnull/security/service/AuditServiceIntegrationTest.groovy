@@ -77,6 +77,11 @@ class AuditServiceIntegrationTest extends BaseSecurityIntegrationTest {
         assert audits[0].revision.modifiedBy == auditor.userName
         assert audits[0].revision.modifiedDate.clearTime() == new Date().clearTime()
 
+        // ignore deletes
+        audits = auditService.findAllByEntity(AuditedWidget, new AuditPagination(selectedDeletedEntities: false))
+        assert audits.size() == 2
+        assert audits[0].type == RevisionType.MOD
+        assert audits[1].type == RevisionType.ADD
     }
 
 

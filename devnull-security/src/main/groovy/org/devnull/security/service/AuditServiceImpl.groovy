@@ -33,7 +33,7 @@ class AuditServiceImpl implements AuditService {
     def <T> List<AuditRevision<T>> findAllByEntity(Class<T> entity, AuditPagination pagination, Closure queryEditor) {
         return doWithEntityManager { EntityManager manager ->
             def reader = AuditReaderFactory.get(manager)
-            def query = reader.createQuery().forRevisionsOfEntity(entity, false, true)
+            def query = reader.createQuery().forRevisionsOfEntity(entity, false, pagination.selectedDeletedEntities)
                     .addOrder(pagination.orderBy)
                     .setMaxResults(pagination.max)
                     .setFirstResult(pagination.offset)
