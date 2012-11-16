@@ -48,7 +48,7 @@ class DisplayTagPaginatedListAdapterTest {
     @Test
     void shouldHaveCorrectPageNumber() {
         when(pagination.page).thenReturn(2)
-        assert tagList.pageNumber == 2
+        assert tagList.pageNumber == 3
     }
 
     @Test

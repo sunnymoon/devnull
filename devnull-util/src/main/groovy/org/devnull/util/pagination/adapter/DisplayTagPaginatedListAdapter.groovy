@@ -21,7 +21,8 @@ class DisplayTagPaginatedListAdapter<T> implements PaginatedList, Pagination<T> 
     }
 
     int getPageNumber() {
-        return pagination.page
+        // add 1 because display tag is 1 based instead of zero
+        return pagination.page + 1
     }
 
     int getObjectsPerPage() {
