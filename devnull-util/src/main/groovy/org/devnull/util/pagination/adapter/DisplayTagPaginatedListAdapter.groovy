@@ -42,7 +42,11 @@ class DisplayTagPaginatedListAdapter<T> implements PaginatedList, Pagination<T> 
     }
 
     SortOrderEnum getSortDirection() {
-        return firstSort?.direction == Sort.DESC ? SortOrderEnum.DESCENDING : SortOrderEnum.ASCENDING
+        def direction = firstSort?.direction
+        if (direction && !direction.equalsIgnoreCase(Sort.DESC) && !direction.equalsIgnoreCase(Sort.ASC)) {
+            log.warn("Unsupported directional instruction in sort opereration: {}", direction)
+        }
+        return direction?.equalsIgnoreCase(Sort.DESC) ? SortOrderEnum.DESCENDING : SortOrderEnum.ASCENDING
     }
 
     String getSearchId() {

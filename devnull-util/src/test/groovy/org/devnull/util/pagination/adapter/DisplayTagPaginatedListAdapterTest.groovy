@@ -64,4 +64,25 @@ class DisplayTagPaginatedListAdapterTest {
         assert tagList.sortDirection == SortOrderEnum.ASCENDING
     }
 
+    @Test
+    void shouldConvertAscendingOrderPropertyCorrectly() {
+        def sorts = [new Sort(field: "count", direction: Sort.ASC)]
+        when(pagination.sorts).thenReturn(sorts)
+        assert tagList.sortDirection == SortOrderEnum.ASCENDING
+    }
+
+    @Test
+    void shouldConvertDescendingOrderPropertyCorrectly() {
+        def sorts = [new Sort(field: "count", direction: Sort.DESC)]
+        when(pagination.sorts).thenReturn(sorts)
+        assert tagList.sortDirection == SortOrderEnum.DESCENDING
+    }
+    
+    @Test
+    void shouldConvertToAscendingOrderWhenValueIsNotSupported() {
+        def sorts = [new Sort(field: "count", direction: "updownleftright")]
+        when(pagination.sorts).thenReturn(sorts)
+        assert tagList.sortDirection == SortOrderEnum.ASCENDING
+    }
+
 }
