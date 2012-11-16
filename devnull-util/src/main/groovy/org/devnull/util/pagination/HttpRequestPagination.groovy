@@ -1,6 +1,8 @@
 package org.devnull.util.pagination
 
 import javax.servlet.http.HttpServletRequest
+import org.devnull.util.pagination.SimplePagination
+import org.devnull.util.pagination.Sort
 
 /**
  * Helps bind http request parameters to pagination fields. See the PARAM constants.
@@ -10,7 +12,7 @@ class HttpRequestPagination<T extends Serializable> extends SimplePagination<T> 
     static final String PARAM_MAX = "max"
     static final String PARAM_PAGE = "page"
     static final String PARAM_SORT = "sort"
-    static final String PARAM_DIRECTION = "direction"
+    static final String PARAM_DIRECTION = "dir"
 
     HttpRequestPagination(HttpServletRequest request) {
         def max = request.getParameter(PARAM_MAX)

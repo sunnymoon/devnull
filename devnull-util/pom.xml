@@ -12,6 +12,11 @@
     <artifactId>devnull-util</artifactId>
     <name>DevNull: Util</name>
     <dependencies>
+        <!-- Optional -->
+        <dependency>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
+        </dependency>
         <!-- Test -->
         <dependency>
             <groupId>org.springframework</groupId>
