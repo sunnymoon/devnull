@@ -39,11 +39,10 @@ class LdapUserContextMapperTest {
     @Test
     void shouldNotCreateUserIfRecordAlreadyExists() {
         def username = "testUser"
-        def url = "http://ldap.devnull.org/${username}"
         def context = mock(DirContextOperations)
         def groups = convertToAuthorities(["cn=Single Role User,dc=devnull,dc=org"])
-        def user = new User(id: 1, userName: url)
-        when(mapper.securityService.findByUserName(url)).thenReturn(user)
+        def user = new User(id: 1, userName: username)
+        when(mapper.securityService.findByUserName(username)).thenReturn(user)
         def result = mapper.mapUserFromContext(context, username, groups)
         verify(mapper.securityService, never()).createNewUser(Matchers.any(User), Matchers.any(List))
         assert result == user
@@ -69,10 +68,9 @@ class LdapUserContextMapperTest {
     @Test
     void shouldCreateUserWithCorrectProperties() {
         def username = "testUser"
-        def url = "http://ldap.devnull.org/${username}"
         def context = mock(DirContextOperations)
         def groups = convertToAuthorities(["cn=Single Role User,dc=devnull,dc=org"])
-        def user = new User(email: "testUser@devnull.org", firstName: "Test", lastName: "User", userName: url)
+        def user = new User(email: "testUser@devnull.org", firstName: "Test", lastName: "User", userName: username)
         when(context.getStringAttribute(mapper.attributesToPropertyNames.email)).thenReturn(user.email)
         when(context.getStringAttribute(mapper.attributesToPropertyNames.firstName)).thenReturn(user.firstName)
         when(context.getStringAttribute(mapper.attributesToPropertyNames.lastName)).thenReturn(user.lastName)
